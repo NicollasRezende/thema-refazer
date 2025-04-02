@@ -1,0 +1,352 @@
+/* Buttons - Estilos para botões e elementos semelhantes a botões */
+
+// Estilo base para todos os botões
+.btn,
+button.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: $font-weight-medium;
+    padding: spacing(2) spacing(4);
+    border-radius: $border-radius;
+    transition: $transition-base;
+    cursor: pointer;
+    border: 1px solid transparent;
+    font-size: rem(16);
+    line-height: 1.5;
+    text-decoration: none;
+
+    &:focus,
+    &.focus {
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba($primary-color, 0.25);
+    }
+
+    &:disabled,
+    &.disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+    }
+
+    .lexicon-icon {
+        vertical-align: middle;
+        margin-right: spacing(2);
+
+        &:last-child:not(:first-child) {
+            margin-right: 0;
+            margin-left: spacing(2);
+        }
+
+        &:only-child {
+            margin: 0;
+        }
+    }
+}
+
+// Botão primário
+.btn-primary {
+    background-color: $primary-color;
+    color: $text-light;
+    border-color: $primary-color;
+
+    &:hover,
+    &:focus {
+        background-color: darken($primary-color, 7.5%);
+        border-color: darken($primary-color, 10%);
+        color: $text-light;
+    }
+
+    &:active,
+    &.active {
+        background-color: darken($primary-color, 10%);
+        border-color: darken($primary-color, 12.5%);
+    }
+}
+
+// Botão secundário
+.btn-secondary {
+    background-color: $gray-600;
+    color: $text-light;
+    border-color: $gray-600;
+
+    &:hover,
+    &:focus {
+        background-color: darken($gray-600, 7.5%);
+        border-color: darken($gray-600, 10%);
+        color: $text-light;
+    }
+
+    &:active,
+    &.active {
+        background-color: darken($gray-600, 10%);
+        border-color: darken($gray-600, 12.5%);
+    }
+}
+
+// Botão de destaque
+.btn-accent {
+    background-color: $accent-color;
+    color: $text-dark;
+    border-color: $accent-color;
+
+    &:hover,
+    &:focus {
+        background-color: darken($accent-color, 7.5%);
+        border-color: darken($accent-color, 10%);
+        color: $text-dark;
+    }
+
+    &:active,
+    &.active {
+        background-color: darken($accent-color, 10%);
+        border-color: darken($accent-color, 12.5%);
+    }
+}
+
+// Botão de sucesso
+.btn-success {
+    background-color: #28a745;
+    color: $text-light;
+    border-color: #28a745;
+
+    &:hover,
+    &:focus {
+        background-color: darken(#28a745, 7.5%);
+        border-color: darken(#28a745, 10%);
+    }
+
+    &:active,
+    &.active {
+        background-color: darken(#28a745, 10%);
+        border-color: darken(#28a745, 12.5%);
+    }
+}
+
+// Botão de perigo
+.btn-danger {
+    background-color: #dc3545;
+    color: $text-light;
+    border-color: #dc3545;
+
+    &:hover,
+    &:focus {
+        background-color: darken(#dc3545, 7.5%);
+        border-color: darken(#dc3545, 10%);
+    }
+
+    &:active,
+    &.active {
+        background-color: darken(#dc3545, 10%);
+        border-color: darken(#dc3545, 12.5%);
+    }
+}
+
+// Botão de aviso
+.btn-warning {
+    background-color: #ffc107;
+    color: $text-dark;
+    border-color: #ffc107;
+
+    &:hover,
+    &:focus {
+        background-color: darken(#ffc107, 7.5%);
+        border-color: darken(#ffc107, 10%);
+    }
+
+    &:active,
+    &.active {
+        background-color: darken(#ffc107, 10%);
+        border-color: darken(#ffc107, 12.5%);
+    }
+}
+
+// Botão de informação
+.btn-info {
+    background-color: #17a2b8;
+    color: $text-light;
+    border-color: #17a2b8;
+
+    &:hover,
+    &:focus {
+        background-color: darken(#17a2b8, 7.5%);
+        border-color: darken(#17a2b8, 10%);
+    }
+
+    &:active,
+    &.active {
+        background-color: darken(#17a2b8, 10%);
+        border-color: darken(#17a2b8, 12.5%);
+    }
+}
+
+// Botão de contorno (outline)
+.btn-outline-primary {
+    color: $primary-color;
+    border-color: $primary-color;
+    background-color: transparent;
+
+    &:hover,
+    &:focus {
+        background-color: $primary-color;
+        color: $text-light;
+    }
+}
+
+.btn-outline-accent {
+    color: $accent-color;
+    border-color: $accent-color;
+    background-color: transparent;
+
+    &:hover,
+    &:focus {
+        background-color: $accent-color;
+        color: $text-dark;
+    }
+}
+
+// Botão texto (sem background)
+.btn-text {
+    background-color: transparent;
+    color: $primary-color;
+    border: none;
+    padding: spacing(1) spacing(2);
+
+    &:hover,
+    &:focus {
+        color: darken($primary-color, 10%);
+        text-decoration: underline;
+        background-color: transparent;
+    }
+}
+
+// Botão de link
+.btn-link {
+    font-weight: $font-weight-normal;
+    color: $primary-color;
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+
+    &:hover,
+    &:focus {
+        color: darken($primary-color, 15%);
+        text-decoration: underline;
+    }
+}
+
+// Tamanhos de botão
+.btn-sm {
+    padding: spacing(1) spacing(3);
+    font-size: rem(14);
+    border-radius: $border-radius-sm;
+}
+
+.btn-lg {
+    padding: spacing(3) spacing(5);
+    font-size: rem(18);
+    border-radius: $border-radius-lg;
+}
+
+.btn-xl {
+    padding: spacing(4) spacing(6);
+    font-size: rem(20);
+    border-radius: $border-radius-lg;
+}
+
+// Botão que ocupa toda a largura
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+// Botão arredondado
+.btn-rounded {
+    border-radius: 50px;
+}
+
+// Botão com ícone
+.btn-icon {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+
+    .lexicon-icon {
+        margin: 0;
+    }
+
+    &.btn-sm {
+        width: 32px;
+        height: 32px;
+
+        .lexicon-icon {
+            font-size: 0.85em;
+        }
+    }
+
+    &.btn-lg {
+        width: 48px;
+        height: 48px;
+
+        .lexicon-icon {
+            font-size: 1.5em;
+        }
+    }
+}
+
+// Botão com ícone e texto
+.btn-icon-text {
+    @include flex(row, center, center, nowrap, spacing(2));
+}
+
+// Grupo de botões
+.btn-group {
+    display: inline-flex;
+    position: relative;
+
+    .btn {
+        position: relative;
+        flex: 1 1 auto;
+
+        &:not(:first-child) {
+            margin-left: -1px;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        &:not(:last-child) {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    }
+}
+
+// Acessibilidade para botões
+.btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}
+
+.btn:focus-visible {
+    outline: 2px solid $accent-color;
+    outline-offset: 2px;
+}
+
+// Efeito de elevação no hover
+.btn-hover-lift {
+    @include hover-lift;
+}
+
+// Botão de CTA (Call to Action)
+.btn-cta {
+    @extend .btn-accent;
+    @extend .btn-lg;
+    @include hover-lift;
+    box-shadow: $box-shadow;
+    font-weight: $font-weight-bold;
+    letter-spacing: 0.5px;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: $box-shadow-lg;
+    }
+}

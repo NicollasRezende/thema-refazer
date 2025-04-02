@@ -1,0 +1,227 @@
+/* Responsive - Utilitários e ajustes para responsividade */
+
+// Classes para visibilidade responsiva
+.ls-hide {
+    display: none !important;
+}
+
+.ls-show {
+    display: block !important;
+}
+
+// Visibilidade por breakpoint
+@each $breakpoint in (xs, sm, md, lg, xl, xxl) {
+    .ls-hide-#{$breakpoint} {
+        @include respond-to($breakpoint) {
+            display: none !important;
+        }
+    }
+
+    .ls-show-#{$breakpoint} {
+        display: none !important;
+
+        @include respond-to($breakpoint) {
+            display: block !important;
+        }
+    }
+}
+
+// Visibilidade apenas em mobile/tablet/desktop
+.ls-hide-mobile {
+    @include respond-to(mobile) {
+        display: none !important;
+    }
+}
+
+.ls-show-mobile {
+    display: none !important;
+
+    @include respond-to(mobile) {
+        display: block !important;
+    }
+}
+
+.ls-hide-tablet {
+    @include respond-to(tablet) {
+        display: none !important;
+    }
+}
+
+.ls-show-tablet {
+    display: none !important;
+
+    @include respond-to(tablet) {
+        display: block !important;
+    }
+}
+
+.ls-hide-desktop {
+    @include respond-to(desktop) {
+        display: none !important;
+    }
+}
+
+.ls-show-desktop {
+    display: none !important;
+
+    @include respond-to(desktop) {
+        display: block !important;
+    }
+}
+
+// Alinhamento de texto responsivo
+@each $breakpoint in (xs, sm, md, lg, xl, xxl) {
+    @include respond-to($breakpoint) {
+        .ls-text-#{$breakpoint}-left {
+            text-align: left !important;
+        }
+        .ls-text-#{$breakpoint}-center {
+            text-align: center !important;
+        }
+        .ls-text-#{$breakpoint}-right {
+            text-align: right !important;
+        }
+    }
+}
+
+// Ordem de elementos responsiva
+@each $breakpoint in (xs, sm, md, lg, xl, xxl) {
+    @include respond-to($breakpoint) {
+        @for $i from 0 through 5 {
+            .ls-order-#{$breakpoint}-#{$i} {
+                order: $i;
+            }
+        }
+        .ls-order-#{$breakpoint}-first {
+            order: -1;
+        }
+        .ls-order-#{$breakpoint}-last {
+            order: 6;
+        }
+    }
+}
+
+// Tamanhos de fonte responsivos
+@include respond-to(mobile) {
+    html {
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: rem(28);
+    }
+    h2 {
+        font-size: rem(24);
+    }
+    h3 {
+        font-size: rem(20);
+    }
+    h4 {
+        font-size: rem(18);
+    }
+    h5 {
+        font-size: rem(16);
+    }
+    h6 {
+        font-size: rem(15);
+    }
+}
+
+// Ajustes para telas muito pequenas
+@include respond-to(xs) {
+    html {
+        font-size: 13px;
+    }
+
+    .container,
+    .container-fluid {
+        padding-left: spacing(2);
+        padding-right: spacing(2);
+    }
+
+    .ls-row {
+        margin-left: -0.5rem;
+        margin-right: -0.5rem;
+    }
+
+    [class*='ls-col-'] {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+}
+
+// Utilitários responsivos de flexbox
+@each $breakpoint in (xs, sm, md, lg, xl, xxl) {
+    @include respond-to($breakpoint) {
+        .ls-flex-#{$breakpoint}-row {
+            flex-direction: row !important;
+        }
+        .ls-flex-#{$breakpoint}-column {
+            flex-direction: column !important;
+        }
+        .ls-flex-#{$breakpoint}-wrap {
+            flex-wrap: wrap !important;
+        }
+        .ls-flex-#{$breakpoint}-nowrap {
+            flex-wrap: nowrap !important;
+        }
+    }
+}
+
+// Preferências do usuário
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+// Impressão
+@media print {
+    .ls-no-print {
+        display: none !important;
+    }
+
+    .ls-print-block {
+        display: block !important;
+    }
+
+    .ls-print-inline {
+        display: inline !important;
+    }
+
+    .ls-print-inline-block {
+        display: inline-block !important;
+    }
+
+    body {
+        min-height: auto !important;
+        padding-top: 0 !important;
+    }
+
+    a[href]:after {
+        content: ' (' attr(href) ')';
+        font-size: 0.8em;
+        font-weight: normal;
+    }
+
+    abbr[title]:after {
+        content: ' (' attr(title) ')';
+    }
+
+    // Evite quebras de página em elementos importantes
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        page-break-after: avoid;
+    }
+
+    img {
+        page-break-inside: avoid;
+    }
+}

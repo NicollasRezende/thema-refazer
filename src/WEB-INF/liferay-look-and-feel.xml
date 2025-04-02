@@ -5,7 +5,7 @@
 	<compatibility>
 		<version>7.4.0+</version>
 	</compatibility>
-	<theme id="livingstone-hotel-135" name="livingstone-hotel">
+	<theme id="livingstone-hotel" name="Livingstone Hotel">
 		<template-extension>ftl</template-extension>
 		<portlet-decorator id="barebone" name="Barebone">
 			<portlet-decorator-css-class>portlet-barebone</portlet-decorator-css-class>
@@ -17,7 +17,5 @@
 			<default-portlet-decorator>true</default-portlet-decorator>
 			<portlet-decorator-css-class>portlet-decorate</portlet-decorator-css-class>
 		</portlet-decorator>
-		<!-- Templates personalizados -->
-        <template-path>/templates/login.ftl</template-path>
 	</theme>
 </look-and-feel>

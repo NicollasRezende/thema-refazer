@@ -1,0 +1,202 @@
+/* Typography - Estilos para tipografia do tema */
+
+// Configurações de fonte base
+body {
+    font-family: $font-body;
+    font-size: 16px;
+    line-height: 1.6;
+    color: $text-dark;
+}
+
+// Título principal e subtítulos
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: $font-heading;
+    margin-top: 0;
+    margin-bottom: spacing(3);
+    line-height: 1.3;
+    color: $primary-color;
+}
+
+h1 {
+    font-size: rem(36);
+    font-weight: $font-weight-bold;
+    @include text-shadow;
+
+    @include respond-to(mobile) {
+        font-size: rem(28);
+    }
+}
+
+h2 {
+    font-size: rem(30);
+    font-weight: $font-weight-bold;
+
+    @include respond-to(mobile) {
+        font-size: rem(24);
+    }
+}
+
+h3 {
+    font-size: rem(24);
+    font-weight: $font-weight-semibold;
+
+    @include respond-to(mobile) {
+        font-size: rem(20);
+    }
+}
+
+h4 {
+    font-size: rem(20);
+    font-weight: $font-weight-semibold;
+
+    @include respond-to(mobile) {
+        font-size: rem(18);
+    }
+}
+
+h5 {
+    font-size: rem(18);
+    font-weight: $font-weight-semibold;
+
+    @include respond-to(mobile) {
+        font-size: rem(16);
+    }
+}
+
+h6 {
+    font-size: rem(16);
+    font-weight: $font-weight-semibold;
+}
+
+// Parágrafos
+p {
+    margin-top: 0;
+    margin-bottom: spacing(3);
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+// Links
+a {
+    color: $accent-color;
+    text-decoration: none;
+    font-weight: $font-weight-medium;
+
+    &:hover,
+    &:focus {
+        color: $accent-dark;
+        text-decoration: underline;
+    }
+}
+
+// Listas
+ul,
+ol {
+    margin-top: 0;
+    margin-bottom: spacing(3);
+    padding-left: spacing(4);
+
+    li {
+        margin-bottom: spacing(2);
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+// Elementos de texto especiais
+small,
+.small {
+    font-size: 85%;
+}
+
+strong,
+.strong,
+b {
+    font-weight: $font-weight-bold;
+}
+
+em,
+.em,
+i {
+    font-style: italic;
+}
+
+// Classes de tipografia utilitárias
+.text-primary {
+    color: $primary-color !important;
+}
+
+.text-accent {
+    color: $accent-color !important;
+}
+
+.text-light {
+    color: $text-light !important;
+}
+
+.text-dark {
+    color: $text-dark !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.text-justify {
+    text-align: justify !important;
+}
+
+.text-uppercase {
+    text-transform: uppercase !important;
+}
+
+.text-capitalize {
+    text-transform: capitalize !important;
+}
+
+.text-lowercase {
+    text-transform: lowercase !important;
+}
+
+// Estilo para título decorado (com linha abaixo)
+.title-decorated {
+    position: relative;
+    padding-bottom: spacing(3);
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background-color: $accent-color;
+        transition: $transition-base;
+    }
+
+    &:hover::after {
+        width: 80px;
+    }
+
+    &.text-center::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}

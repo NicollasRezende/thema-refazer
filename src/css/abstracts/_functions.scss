@@ -1,0 +1,76 @@
+/* Functions - Funções para manipulação de valores */
+
+@use "sass:math";
+@use "sass:string";
+
+// Converter pixel para rem
+@function rem($pixels, $context: 16) {
+    @return calc($pixels / $context) * 1rem;
+}
+
+// Converter pixel para em
+@function em($pixels, $context: 16) {
+    @return calc($pixels / $context) * 1em;
+}
+
+// Obter cor do mapa de cores
+@function color($color-name) {
+    @if variable-exists($color-name) {
+        @return var(--#{$color-name});
+    } @else {
+        @error "A cor #{$color-name} não está definida no sistema de cores.";
+        @return null;
+    }
+}
+
+// Obter valor de espaçamento
+@function spacing($key) {
+    @if map-has-key($spacers, $key) {
+        @return map-get($spacers, $key);
+    } @else {
+        @error "O espaçamento #{$key} não está definido no mapa $spacers.";
+        @return null;
+    }
+}
+
+// Ajustar cor (clarear/escurecer)
+@function adjust-color($color, $amount, $type: 'lighten') {
+    @if $type == 'lighten' {
+        @return lighten($color, $amount);
+    } @else if $type == 'darken' {
+        @return darken($color, $amount);
+    } @else {
+        @error "O tipo #{$type} não é válido. Use 'lighten' ou 'darken'.";
+        @return $color;
+    }
+}
+
+// Z-index helper
+@function z-index($key) {
+    $z-indexes: (
+        dropdown: $z-index-dropdown,
+        sticky: $z-index-sticky,
+        fixed: $z-index-fixed,
+        offcanvas: $z-index-offcanvas,
+        modal-backdrop: $z-index-modal-backdrop,
+        modal: $z-index-modal,
+        popover: $z-index-popover,
+        tooltip: $z-index-tooltip,
+    );
+
+    @if map-has-key($z-indexes, $key) {
+        @return map-get($z-indexes, $key);
+    } @else {
+        @error "O z-index #{$key} não está definido no mapa $z-indexes.";
+        @return 0;
+    }
+}
+
+// Função para substituir caracteres em strings
+@function str-replace($string, $search, $replace: '') {
+    $index: string.index($string, $search);
+    @if $index {
+        @return string.slice($string, 1, $index - 1) + $replace + str-replace(string.slice($string, $index + string.length($search)), $search, $replace);
+    }
+    @return $string;
+}

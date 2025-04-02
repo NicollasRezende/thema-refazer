@@ -1,31 +1,76 @@
-    <header class="header-main">
-        <nav class="navbar">
+<header class="livingstone-header">
+    <div class="container">
+        <div class="navbar">
             <!-- Logo -->
-            <div class="logo">
-                <img src="/documents/d/guest/logohotel" alt="Living Stone Logo" class="logo-img">
+            <div class="navbar-brand">
+                <a class="${logo_css_class}" href="${site_default_url}" title="<@liferay.language_format arguments=" ${site_name}" key="go-to-x" />">
+                <img alt="${logo_description}" height="${site_logo_height}" src="${site_logo}" width="${site_logo_width}" />
+                </a>
                 <h3>Living <span>Stone</span> Hotel</h3>
             </div>
-            <!-- Links de navegação -->
-            <ul class="nav-links">
-                <li><a href="#home" class="active">Home</a></li>
-                <li><a href="#rooms">Quartos</a></li>
-                <li><a href="#services">Serviços</a></li>
-                <li><a href="#about">Sobre</a></li>
-                <li><a href="#contact">Contato</a></li>
-                <li class="book-now"><a href="#reserve">Reservar Agora</a></li>
-                <#if !themeDisplay.isSignedIn()>
-                    <div class="liferay-login-btn">
-                        <a href="/c/portal/login" class="btn-primary">
-                            Login
-                        </a>
-                    </div>
-                </#if>
-            </ul>
-            <!-- Botão hamburger para menu mobile -->
-            <button class="hamburger" aria-label="Menu">
-                <div class="hamburger-box">
-                    <div class="hamburger-inner"></div>
-                </div>
+            <!-- Menu Mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navigationMenu" aria-controls="navigationMenu" aria-expanded="false" aria-label="<@liferay.language key=" toggle-navigation" />">
+            <svg class="lexicon-icon lexicon-icon-bars" focusable="false" role="presentation">
+                <use href="${themeDisplay.getPathThemeImages()}/clay/icons.svg#bars" />
+            </svg>
             </button>
-        </nav>
-    </header>
+            <!-- Navigation and User Links -->
+            <div class="navbar-collapse collapse" id="navigationMenu">
+                <#if has_navigation && is_setup_complete>
+                    <#include "${full_templates_path}/navigation.ftl" />
+                </#if>
+                <!-- User Links -->
+                <div class="user-links">
+                    <#if !is_signed_in>
+                        <a href="${sign_in_url}" class="btn btn-primary">
+                            <svg class="lexicon-icon lexicon-icon-sign-in" focusable="false" role="presentation">
+                                <use href="${themeDisplay.getPathThemeImages()}/clay/icons.svg#sign-in" />
+                            </svg>
+                            <span>
+                                <@liferay.language key="sign-in" />
+                            </span>
+                        </a>
+                        <#else>
+                            <div class="user-info">
+                                <span class="user-greeting">
+                                    <svg class="lexicon-icon lexicon-icon-user" focusable="false" role="presentation">
+                                        <use href="${themeDisplay.getPathThemeImages()}/clay/icons.svg#user" />
+                                    </svg>
+                                    <span>
+                                        ${user_name}
+                                    </span>
+                                </span>
+                                <a href="${sign_out_url}" class="btn btn-outline-primary">
+                                    <svg class="lexicon-icon lexicon-icon-sign-out" focusable="false" role="presentation">
+                                        <use href="${themeDisplay.getPathThemeImages()}/clay/icons.svg#sign-out" />
+                                    </svg>
+                                    <span>
+                                        <@liferay.language key="sign-out" />
+                                    </span>
+                                </a>
+                            </div>
+                    </#if>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Overlay for Mobile Menu -->
+    <div class="header-overlay" id="headerOverlay"></div>
+</header>
+<script>
+// Script para o overlay do menu mobile
+document.addEventListener('DOMContentLoaded', function() {
+    const navbarToggler = document.querySelector('.navbar-toggler');
+    const headerOverlay = document.getElementById('headerOverlay');
+    const navbarCollapse = document.getElementById('navigationMenu');
+    if (navbarToggler && headerOverlay && navbarCollapse) {
+        navbarToggler.addEventListener('click', function() {
+            headerOverlay.classList.toggle('show');
+        });
+        headerOverlay.addEventListener('click', function() {
+            navbarCollapse.classList.remove('show');
+            headerOverlay.classList.remove('show');
+        });
+    }
+});
+</script>

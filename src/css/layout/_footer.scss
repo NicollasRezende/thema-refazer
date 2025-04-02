@@ -1,18 +1,14 @@
-@use 'sass:map';
-@use '../abstracts/variaveis' as v;
-@use '../abstracts/mixins' as m;
-@use '../abstracts/breakpoints' as b;
+/* Footer - Estilos para o rodapé do site */
 
-/* ======================================================
-   RODAPÉ
-====================================================== */
-
-.footer-main {
-    background: v.$background-dark;
-    padding: 4rem 0 0;
+.livingstone-footer {
     position: relative;
+    background-color: $primary-color;
+    color: $text-light;
+    padding: spacing(7) 0 spacing(3);
+    margin-top: spacing(7);
+    overflow: hidden;
 
-    // Borda superior decorativa
+    // Efeito de borda superior
     &::before {
         content: '';
         position: absolute;
@@ -22,34 +18,135 @@
         height: 5px;
         background: linear-gradient(
             to right,
-            v.$primary-dark,
-            v.$accent,
-            v.$primary-dark
+            $primary-dark,
+            $accent-color,
+            $primary-dark
         );
     }
 
-    /* ======================================================
-       GRID DO RODAPÉ - Layout principal
-    ====================================================== */
+    // Efeito de onda no fundo
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        background: url('../images/wave.svg') repeat-x;
+        background-size: 300px 60px;
+        opacity: 0.05;
+        pointer-events: none;
+    }
 
-    .footer-grid {
-        @include m.container;
+    // Efeito decorativo
+    .footer-decoration {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(
+            circle,
+            rgba($accent-color, 0.1) 0%,
+            rgba($accent-color, 0) 70%
+        );
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 1;
+    }
 
-        & {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-            padding-bottom: 3rem;
-            border-bottom: 1px solid rgba(v.$accent, 0.1);
+    // Container principal
+    .container {
+        position: relative;
+        z-index: 2;
+    }
+
+    // Grid de conteúdo
+    .row {
+        margin-bottom: spacing(5);
+
+        // Define margens entre colunas
+        > [class*='col-'] {
+            margin-bottom: spacing(5);
+
+            @include respond-to(lg) {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    // Seção da marca
+    .footer-brand {
+        h4 {
+            font-family: $font-heading;
+            font-size: rem(24);
+            color: $accent-color;
+            margin-bottom: spacing(3);
+            position: relative;
+            padding-bottom: spacing(3);
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 50px;
+                height: 2px;
+                background-color: $accent-color;
+                transition: $transition-base;
+            }
+
+            &:hover::after {
+                width: 70px;
+            }
         }
 
-        // Estilo dos títulos do rodapé
+        p {
+            color: rgba($text-light, 0.8);
+            max-width: 300px;
+            margin-bottom: spacing(4);
+        }
+
+        // Ícones sociais
+        .social-icons {
+            @include flex(row, flex-start, center, nowrap, spacing(3));
+
+            a {
+                @include flex(row, center, center);
+                width: 40px;
+                height: 40px;
+                background-color: rgba($text-light, 0.1);
+                border-radius: 50%;
+                transition: $transition-base;
+
+                .lexicon-icon {
+                    width: 20px;
+                    height: 20px;
+                    color: $text-light;
+                    transition: $transition-base;
+                }
+
+                &:hover {
+                    background-color: $accent-color;
+                    transform: translateY(-5px);
+
+                    .lexicon-icon {
+                        color: $primary-color;
+                    }
+                }
+            }
+        }
+    }
+
+    // Seção de navegação
+    .footer-nav {
         h4 {
-            color: v.$accent;
-            margin-bottom: 1.5rem;
-            font-size: 1.4rem;
+            font-family: $font-heading;
+            font-size: rem(20);
+            color: $accent-color;
+            margin-bottom: spacing(4);
             position: relative;
-            padding-bottom: 0.8rem;
+            padding-bottom: spacing(3);
 
             &::after {
                 content: '';
@@ -58,177 +155,163 @@
                 left: 0;
                 width: 40px;
                 height: 2px;
-                background: v.$accent;
-                transition: width var(--transition-normal);
+                background-color: $accent-color;
             }
+        }
+    }
 
-            &:hover::after {
-                width: 60px;
+    // Seção de contato
+    .footer-contact {
+        h4 {
+            font-family: $font-heading;
+            font-size: rem(20);
+            color: $accent-color;
+            margin-bottom: spacing(4);
+            position: relative;
+            padding-bottom: spacing(3);
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 40px;
+                height: 2px;
+                background-color: $accent-color;
             }
         }
 
         p {
-            color: v.$text-light;
-            margin-bottom: 1rem;
-        }
+            @include flex(row, flex-start, center, nowrap, spacing(3));
+            margin-bottom: spacing(3);
 
-        /* ======================================================
-         SEÇÃO MARCA - Logo e informações da marca
-      ====================================================== */
-
-        .footer-brand {
-            p {
-                opacity: 0.8;
+            .lexicon-icon {
+                width: 18px;
+                height: 18px;
+                color: $accent-color;
+                flex-shrink: 0;
             }
 
-            // Ícones de redes sociais
-            .social-icons {
-                display: flex;
-                gap: 1.2rem;
-                margin-top: 1.5rem;
+            span {
+                color: rgba($text-light, 0.9);
+            }
+        }
+    }
 
-                a {
-                    color: v.$text-light;
-                    font-size: 1.5rem;
-                    transition: all 0.3s ease;
-                    width: 40px;
-                    height: 40px;
-                    background: rgba(v.$primary-light, 0.2);
-                    border-radius: 50%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
+    // Seção de newsletter (opcional)
+    .footer-newsletter {
+        h4 {
+            font-family: $font-heading;
+            font-size: rem(20);
+            color: $accent-color;
+            margin-bottom: spacing(3);
+            position: relative;
+            padding-bottom: spacing(3);
 
-                    &:hover {
-                        color: v.$accent;
-                        background: rgba(v.$primary-light, 0.4);
-                        transform: translateY(-3px);
-                    }
-                }
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 40px;
+                height: 2px;
+                background-color: $accent-color;
             }
         }
 
-        /* ======================================================
-         SEÇÃO NAVEGAÇÃO - Links do rodapé
-      ====================================================== */
-
-        .footer-nav {
-            ul {
-                list-style: none;
-                margin-top: -0.5rem;
-
-                li {
-                    margin-bottom: 0.8rem;
-
-                    a {
-                        color: v.$text-light;
-                        text-decoration: none;
-                        transition: all 0.3s ease;
-                        display: block;
-                        padding: 0.3rem 0;
-                        opacity: 0.8;
-
-                        &:hover {
-                            color: v.$accent;
-                            transform: translateX(5px);
-                            opacity: 1;
-                        }
-                    }
-                }
-            }
+        p {
+            color: rgba($text-light, 0.8);
+            margin-bottom: spacing(3);
         }
 
-        /* ======================================================
-         SEÇÃO CONTATO - Informações de contato
-      ====================================================== */
+        .newsletter-form {
+            @include flex(row, center, stretch, nowrap, spacing(2));
 
-        .footer-contact {
-            p {
-                margin-bottom: 0.8rem;
-                display: flex;
-                align-items: center;
-                opacity: 0.8;
+            input {
+                flex: 1;
+                height: 44px;
+                padding: 0 spacing(3);
+                background-color: rgba($text-light, 0.1);
+                border: 1px solid rgba($text-light, 0.2);
+                border-radius: $border-radius-sm;
+                color: $text-light;
 
-                i {
-                    color: v.$accent;
-                    margin-right: 0.8rem;
-                    width: 20px;
-                    text-align: center;
-                    font-size: 1.1rem;
+                &::placeholder {
+                    color: rgba($text-light, 0.5);
                 }
+
+                &:focus {
+                    outline: none;
+                    border-color: $accent-color;
+                    background-color: rgba($text-light, 0.15);
+                }
+            }
+
+            button {
+                height: 44px;
+                padding: 0 spacing(4);
+                background-color: $accent-color;
+                color: $primary-color;
+                font-weight: $font-weight-semibold;
+                border: none;
+                border-radius: $border-radius-sm;
+                transition: $transition-base;
 
                 &:hover {
-                    opacity: 1;
+                    background-color: darken($accent-color, 10%);
+                    transform: translateY(-2px);
                 }
             }
-        }
 
-        /* ======================================================
-         SEÇÃO NEWSLETTER - Formulário de inscrição
-      ====================================================== */
+            @include respond-to(mobile) {
+                flex-direction: column;
 
-        .footer-newsletter {
-            form {
-                display: flex;
-                gap: 0.5rem;
-                margin-top: 1rem;
-
-                input {
-                    flex: 1;
-                    padding: 0.8rem 1rem;
-                    border: none;
-                    border-radius: var(--border-radius-sm);
-                    background: rgba(v.$primary-light, 0.2);
-                    color: v.$text-light;
-
-                    &::placeholder {
-                        color: rgba(v.$text-light, 0.6);
-                    }
-
-                    &:focus {
-                        outline: none;
-                        box-shadow: 0 0 0 2px rgba(v.$accent, 0.3);
-                        background: rgba(v.$primary-light, 0.3);
-                    }
-                }
-
+                input,
                 button {
-                    background: v.$accent;
-                    color: v.$text-dark;
-                    border: none;
-                    padding: 0.8rem 1.2rem;
-                    border-radius: var(--border-radius-sm);
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    font-weight: 600;
-
-                    &:hover {
-                        background: v.$accent-dark;
-                        color: v.$text-light;
-                        transform: translateY(-3px);
-                    }
-                }
-
-                @include m.respond-to('small') {
-                    flex-direction: column;
-                    gap: 0.8rem;
-
-                    button {
-                        width: 100%;
-                    }
+                    width: 100%;
+                    margin-bottom: spacing(2);
                 }
             }
         }
+    }
 
-        // Responsividade do grid
-        @include m.respond-to('medium') {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2.5rem;
+    // Parte inferior com copyright
+    .footer-bottom {
+        text-align: center;
+        padding-top: spacing(4);
+        border-top: 1px solid rgba($text-light, 0.1);
+
+        p {
+            @include flex(row, center, center, wrap, spacing(2));
+            color: rgba($text-light, 0.6);
+            font-size: rem(14);
+
+            a {
+                color: rgba($text-light, 0.8);
+                transition: $transition-base;
+
+                &:hover {
+                    color: $accent-color;
+                    text-decoration: none;
+                }
+            }
         }
+    }
 
-        @include m.respond-to('small') {
-            grid-template-columns: 1fr;
-            gap: 2rem;
+    // Responsividade
+    @include respond-to(tablet) {
+        padding: spacing(6) 0 spacing(3);
+
+        .footer-decoration {
+            display: none;
+        }
+    }
+
+    @include respond-to(mobile) {
+        .footer-brand,
+        .footer-nav,
+        .footer-contact,
+        .footer-newsletter {
             text-align: center;
 
             h4 {
@@ -238,39 +321,18 @@
                 }
             }
 
-            .footer-brand .social-icons {
+            p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .social-icons {
                 justify-content: center;
             }
 
             .footer-contact p {
                 justify-content: center;
             }
-        }
-    }
-
-    /* ======================================================
-       PARTE INFERIOR DO RODAPÉ - Copyright e links legais
-    ====================================================== */
-
-    .footer-bottom {
-        text-align: center;
-        padding: 2rem 0;
-        color: rgba(v.$text-light, 0.6);
-        font-size: 0.9rem;
-
-        a {
-            color: rgba(v.$text-light, 0.7);
-            text-decoration: none;
-            transition: color 0.3s ease;
-
-            &:hover {
-                color: v.$accent;
-            }
-        }
-
-        @include m.respond-to('small') {
-            padding: 1.5rem 0;
-            font-size: 0.8rem;
         }
     }
 }

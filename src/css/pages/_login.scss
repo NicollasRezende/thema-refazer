@@ -1,0 +1,288 @@
+/* Login - Estilos específicos para a página de login */
+
+// Contêiner principal da página de login
+.livingstone-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 90px); // Ajuste para considerar o header
+    background: linear-gradient(
+            to right,
+            rgba($primary-dark, 0.9),
+            rgba($primary-color, 0.85)
+        ),
+        url('../images/hotel-bg.jpg') center/cover no-repeat;
+    padding: spacing(5) spacing(3);
+
+    @include respond-to(mobile) {
+        padding: spacing(3);
+    }
+}
+
+// Cartão de login
+.login-card {
+    background-color: white;
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+    width: 100%;
+    max-width: 480px;
+    @include box-shadow($box-shadow-lg);
+    display: flex;
+    flex-direction: column;
+
+    @include respond-to(mobile) {
+        max-width: 100%;
+    }
+}
+
+// Cabeçalho do cartão
+.login-header {
+    padding: spacing(5) spacing(5) spacing(3);
+    text-align: center;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid $gray-200;
+
+    .logo-img {
+        height: 60px;
+        margin-bottom: spacing(3);
+    }
+
+    h2 {
+        color: $primary-color;
+        margin-bottom: spacing(2);
+        font-size: rem(24);
+    }
+
+    p {
+        color: $gray-600;
+        margin-bottom: 0;
+    }
+
+    @include respond-to(mobile) {
+        padding: spacing(4) spacing(3) spacing(2);
+
+        .logo-img {
+            height: 50px;
+        }
+
+        h2 {
+            font-size: rem(20);
+        }
+
+        p {
+            font-size: rem(14);
+        }
+    }
+}
+
+// Corpo do cartão (portlet de login)
+.portlet-login-wrapper {
+    padding: spacing(4) spacing(5) spacing(5);
+
+    .portlet-content {
+        padding: 0;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .portlet-title,
+    .portlet-header {
+        display: none; // Esconder cabeçalho duplo
+    }
+
+    // Formulário de login
+    .login-container {
+        .form-group {
+            margin-bottom: spacing(3);
+
+            .form-control {
+                @include box-shadow(none);
+                font-size: rem(16);
+
+                &:focus {
+                    border-color: $accent-color;
+                }
+            }
+        }
+
+        // Checkbox de lembrar-me
+        .form-check-label {
+            color: $gray-700;
+            font-size: rem(14);
+        }
+
+        // Links de navegação
+        .navigation {
+            list-style: none;
+            padding: 0;
+            margin: spacing(4) 0 0;
+
+            li {
+                margin-bottom: spacing(2);
+
+                a {
+                    color: $primary-color;
+                    font-size: rem(14);
+
+                    &:hover {
+                        color: $accent-color;
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+
+        // Botões
+        .button-holder {
+            margin-top: spacing(4);
+
+            .btn {
+                width: 100%;
+                padding: spacing(3);
+                font-weight: $font-weight-semibold;
+                background-color: $primary-color;
+                border-color: $primary-color;
+
+                &:hover {
+                    background-color: darken($primary-color, 7.5%);
+                    border-color: darken($primary-color, 10%);
+                }
+            }
+        }
+    }
+
+    @include respond-to(mobile) {
+        padding: spacing(3);
+    }
+}
+
+// Rodapé do cartão
+.login-footer {
+    padding: spacing(4) spacing(5);
+    text-align: center;
+    background-color: #f8f9fa;
+    border-top: 1px solid $gray-200;
+
+    p {
+        margin-bottom: spacing(2);
+        color: $gray-700;
+    }
+
+    .create-account-button {
+        display: inline-block;
+        color: $primary-color;
+        font-weight: $font-weight-semibold;
+
+        &:hover {
+            color: $accent-color;
+            text-decoration: underline;
+        }
+    }
+
+    @include respond-to(mobile) {
+        padding: spacing(3);
+    }
+}
+
+// Estilização específica para o formulário de login personalizado
+#portlet_com_liferay_login_web_portlet_LoginPortlet {
+    .portlet {
+        margin-bottom: 0;
+        border: none;
+        box-shadow: none;
+
+        .portlet-content {
+            padding: 0;
+        }
+    }
+
+    .login-form {
+        .form-group {
+            margin-bottom: spacing(3);
+        }
+
+        label {
+            color: $primary-color;
+            font-weight: $font-weight-medium;
+        }
+
+        input[type='text'],
+        input[type='password'] {
+            height: auto;
+            padding: spacing(2) spacing(3);
+            border: 1px solid $gray-300;
+            border-radius: $border-radius;
+            font-size: rem(16);
+            transition: $transition-base;
+
+            &:focus {
+                border-color: $accent-color;
+                outline: none;
+                box-shadow: 0 0 0 0.2rem rgba($accent-color, 0.25);
+            }
+        }
+
+        .button-holder {
+            display: flex;
+            flex-direction: column;
+            margin-top: spacing(4);
+
+            button {
+                width: 100%;
+                background-color: $primary-color;
+                color: white;
+                border: none;
+                border-radius: $border-radius;
+                padding: spacing(3);
+                font-weight: $font-weight-semibold;
+                cursor: pointer;
+                transition: $transition-base;
+
+                &:hover {
+                    background-color: darken($primary-color, 7.5%);
+                }
+            }
+        }
+    }
+
+    // Links adicionais na página de login
+    .navigation {
+        list-style: none;
+        padding: 0;
+        margin: spacing(4) 0 0;
+        text-align: center;
+
+        li {
+            margin-bottom: spacing(2);
+
+            a {
+                color: $primary-color;
+                font-size: rem(14);
+
+                &:hover {
+                    color: $accent-color;
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+
+    // Mensagens de erro
+    .alert {
+        margin-bottom: spacing(3);
+        padding: spacing(2) spacing(3);
+        border-radius: $border-radius;
+
+        &.alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+
+        &.alert-success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+    }
+}

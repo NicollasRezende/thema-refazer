@@ -1,109 +1,100 @@
-@use 'sass:map';
-@use 'variaveis' as v;
-@use 'breakpoints' as b;
-@use 'z-index' as z;
+// Importar variáveis
+@import 'variables';
+/* Mixins - Funções reutilizáveis para SCSS */
 
-/* ======================================================
-   MIXINS
-   Funções reutilizáveis para melhorar a produtividade
-====================================================== */
-
-// Mixin para breakpoints responsivos
+// Mixin para media queries
 @mixin respond-to($breakpoint) {
-    @if map.has-key(b.$breakpoints, $breakpoint) {
-        @media screen and (max-width: map.get(b.$breakpoints, $breakpoint)) {
+    @if $breakpoint == xs {
+        @media (max-width: #{$breakpoint-sm - 1}) {
+            @content;
+        }
+    } @else if $breakpoint == sm {
+        @media (min-width: #{$breakpoint-sm}) and (max-width: #{$breakpoint-md - 1}) {
+            @content;
+        }
+    } @else if $breakpoint == md {
+        @media (min-width: #{$breakpoint-md}) and (max-width: #{$breakpoint-lg - 1}) {
+            @content;
+        }
+    } @else if $breakpoint == lg {
+        @media (min-width: #{$breakpoint-lg}) and (max-width: #{$breakpoint-xl - 1}) {
+            @content;
+        }
+    } @else if $breakpoint == xl {
+        @media (min-width: #{$breakpoint-xl}) and (max-width: #{$breakpoint-xxl - 1}) {
+            @content;
+        }
+    } @else if $breakpoint == xxl {
+        @media (min-width: #{$breakpoint-xxl}) {
+            @content;
+        }
+    } @else if $breakpoint == mobile {
+        @media (max-width: #{$breakpoint-md - 1}) {
+            @content;
+        }
+    } @else if $breakpoint == tablet {
+        @media (max-width: #{$breakpoint-lg - 1}) {
+            @content;
+        }
+    } @else if $breakpoint == desktop {
+        @media (min-width: #{$breakpoint-lg}) {
             @content;
         }
     } @else {
-        @warn "O breakpoint '#{$breakpoint}' não existe no mapa b.$breakpoints.";
+        @error "O breakpoint '#{$breakpoint}' não é válido. Use xs, sm, md, lg, xl, xxl, mobile, tablet ou desktop.";
     }
 }
 
-// Mixin para layouts flexíveis
-@mixin flex($direction: row, $justify: center, $align: center, $gap: null) {
+// Mixin para flexbox
+@mixin flex(
+    $direction: row,
+    $justify: flex-start,
+    $align: center,
+    $wrap: nowrap,
+    $gap: 0
+) {
     display: flex;
     flex-direction: $direction;
     justify-content: $justify;
     align-items: $align;
-    @if $gap {
+    flex-wrap: $wrap;
+    @if $gap != 0 {
         gap: $gap;
     }
 }
 
-// Mixin para centralizar com flexbox
-@mixin flex-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+// Mixin para posicionamento absoluto
+@mixin absolute($top: auto, $right: auto, $bottom: auto, $left: auto) {
+    position: absolute;
+    top: $top;
+    right: $right;
+    bottom: $bottom;
+    left: $left;
 }
 
-// Mixin para layout em grid
-@mixin grid($columns: 1fr, $gap: var(--spacing-md)) {
+// Mixin para posicionamento fixo
+@mixin fixed($top: auto, $right: auto, $bottom: auto, $left: auto) {
+    position: fixed;
+    top: $top;
+    right: $right;
+    bottom: $bottom;
+    left: $left;
+}
+
+// Mixin para grid
+@mixin grid($columns: 1, $rows: auto, $gap: 0) {
     display: grid;
-    grid-template-columns: $columns;
+    grid-template-columns: repeat($columns, 1fr);
+    grid-template-rows: $rows;
     gap: $gap;
 }
 
-// Mixin para efeito de elevação no hover
-@mixin hover-lift {
-    transition: transform var(--transition-normal),
-        box-shadow var(--transition-normal);
-
-    &:hover {
-        transform: translateY(-5px);
-        box-shadow: var(--shadow-lg);
-    }
-}
-
-// Mixin para efeito hover padrão
-@mixin hover-effect {
-    transition: all 0.3s ease;
-    &:hover {
-        transform: translateY(-3px);
-        box-shadow: var(--shadow-md);
-    }
-}
-
-// Mixin para padding padrão das seções
-@mixin section-padding {
-    padding: 5rem 0;
-}
-
-// Mixin para container principal
-@mixin container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-
-    @include respond-to('large') {
-        max-width: b.$container-large;
-    }
-
-    @include respond-to('medium') {
-        max-width: b.$container-medium;
-        padding: 0 1.5rem;
-    }
-
-    @include respond-to('small') {
-        max-width: b.$container-small;
-        padding: 0 1rem;
-    }
-}
-
-// Mixin para efeito de vidro
-@mixin glass-effect {
-    background: rgba(v.$background-dark, 0.7);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(v.$accent, 0.1);
-    box-shadow: var(--shadow-md);
-}
-
 // Mixin para truncar texto
-@mixin truncate($lines: 1) {
+@mixin text-truncate($lines: 1) {
     @if $lines == 1 {
         white-space: nowrap;
-        overflow: hidden;
         text-overflow: ellipsis;
+        overflow: hidden;
     } @else {
         display: -webkit-box;
         -webkit-line-clamp: $lines;
@@ -112,61 +103,52 @@
     }
 }
 
-// Mixin para estilização de título com linha decorativa
-@mixin title-decoration {
-    position: relative;
-    padding-bottom: 0.5rem;
-
-    &::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 60px;
-        height: 3px;
-        background: v.$accent;
-        transition: width var(--transition-normal);
-    }
-
-    &:hover::after {
-        width: 80px;
-    }
+// Mixin para reset de botão
+@mixin button-reset {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    outline: none;
 }
 
-// Mixin para melhoria de acessibilidade - focus outline
-@mixin focus-outline {
+// Mixin para transições
+@mixin transition($property: all, $duration: 0.3s, $timing: ease) {
+    transition: $property $duration $timing;
+}
+
+// Mixin para glassmorphism
+@mixin glass($opacity: 0.2, $blur: 10px) {
+    background-color: rgba(255, 255, 255, $opacity);
+    backdrop-filter: blur($blur);
+    -webkit-backdrop-filter: blur($blur);
+}
+
+// Mixin para texto com sombra
+@mixin text-shadow($size: 2px) {
+    text-shadow: 0 $size 4px rgba(0, 0, 0, 0.3);
+}
+
+// Mixin para box-shadow
+@mixin box-shadow($shadow: $box-shadow) {
+    box-shadow: $shadow;
+}
+
+// Mixin para animação de hover
+@mixin hover-lift($y: -3px, $shadow: $box-shadow-lg) {
+    @include transition;
+
+    &:hover,
     &:focus {
-        outline: 2px solid v.$accent;
-        outline-offset: 2px;
+        transform: translateY($y);
+        @include box-shadow($shadow);
     }
 }
 
-// Mixin para estilo visual dos inputs
-@mixin input-style {
-    width: 100%;
-    padding: 0.8rem 1rem;
-    background: rgba(v.$primary, 0.2);
-    border: 1px solid rgba(v.$accent, 0.2);
-    border-radius: var(--border-radius-md);
-    color: v.$text-light;
-    transition: border-color var(--transition-normal),
-        box-shadow var(--transition-normal);
-
-    &::placeholder {
-        color: rgba(v.$text-light, 0.6);
-    }
-
-    &:focus {
-        border-color: v.$accent;
-        box-shadow: 0 0 0 3px rgba(v.$accent, 0.2);
-        outline: none;
-        background: rgba(v.$primary, 0.4);
-    }
-}
-
-// Mixin para animar elementos ao entrar na viewport
-@mixin animate-on-scroll($animation: fadeIn, $duration: 0.5s, $delay: 0s) {
-    opacity: 0;
-    animation: $animation $duration ease forwards;
-    animation-delay: $delay;
+// Mixin para gradientes
+@mixin gradient($direction, $start-color, $end-color) {
+    background: linear-gradient($direction, $start-color, $end-color);
 }

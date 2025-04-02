@@ -1,34 +1,27 @@
-/* main.scss */
-@use 'sass:color';
-@use 'sass:map';
+/* _custom.scss - Arquivo principal que importa todos os outros componentes SCSS */
 
-/* Abstracts - use encaminhamento para simplificar */
-@use 'abstracts/index';
+/* Abstracts - base para todo o tema */
+@import 'abstracts/variables';
+@import 'abstracts/mixins';
+@import 'abstracts/functions';
 
-/* Base */
-@use 'base/reset';
-@use 'base/tipografia';
-@use 'base/animacoes';
+/* Base - estilos básicos */
+@import 'base/resets';
+@import 'base/typography';
 
-/* Layout */
-@use 'layout/grid';
-@use 'layout/header';
-@use 'paginas/customportletthings';
-@use 'paginas/adminnav';
-@use 'layout/footer';
-@use 'layout/responsivo';
+/* Layout - componentes principais do layout */
+@import 'layout/header';
+@import 'layout/footer';
+@import 'layout/grid';
+@import 'layout/responsive';
 
-/* Componentes */
-@use 'componentes/botoes';
-@use 'componentes/cards';
-@use 'componentes/carrossel';
-@use 'componentes/formularios';
-@use 'componentes/icones';
+/* Components - elementos reutilizáveis */
+@import 'components/buttons';
+@import 'components/forms';
+@import 'components/navigation';
+@import 'components/portlets';
+@import 'components/icons';
 
-/* Páginas */
-@use 'paginas/home';
-@use 'paginas/sobre';
-@use 'paginas/quartos';
-@use 'paginas/servicos';
-@use 'paginas/contato';
-
+/* Pages - estilos específicos para páginas especiais */
+@import 'pages/login';
+@import 'pages/home';

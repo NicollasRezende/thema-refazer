@@ -1,343 +1,329 @@
-@use 'sass:map';
-@use '../abstracts/variaveis' as v;
-@use '../abstracts/mixins' as m;
-@use '../abstracts/z-index' as z;
-@use '../abstracts/breakpoints' as b;
+/* Header - Estilos para o cabeçalho do site */
 
-/* ======================================================
-   HEADER E NAVEGAÇÃO
-====================================================== */
-
-.header-main {
+.livingstone-header {
     position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     width: 100%;
-    top: var(--control-menu-height, 0);
-    z-index: z.z('header');
-    background: rgba(v.$background-dark, 0.9);
+    z-index: z-index(fixed);
+    background-color: rgba($light-color, 0.95);
+    @include box-shadow;
+    padding: spacing(3) 0;
+    transition: $transition-base;
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(v.$accent, 0.1);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-    transition: all var(--transition-normal);
-    // Estado quando a página é scrollada
-    &.scrolled {
-        padding: 0.2rem 0;
-        background: rgba(v.$background-dark, 0.95);
-        border-bottom: 1px solid rgba(v.$accent, 0.2);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    -webkit-backdrop-filter: blur(10px);
 
-        .navbar {
-            padding-top: 0.7rem;
-            padding-bottom: 0.7rem;
+    // Ajuste quando o controle-menu do Liferay estiver visível
+    .has-control-menu & {
+        top: var(--control-menu-height, 0);
+    }
+
+    // Estado para quando a página é scrollada
+    &.scrolled {
+        padding: spacing(2) 0;
+        background-color: rgba(white, 0.98);
+        @include box-shadow($box-shadow-lg);
+
+        .navbar-brand {
+            transform: scale(0.9);
+
+            img {
+                max-height: 50px;
+            }
         }
 
-        .logo {
-            img {
-                height: 100%px;
-                width: 100%;
-            }
-
-            h3 {
-                font-size: 1.5rem;
-            }
+        .navbar-nav .nav-link {
+            padding-top: spacing(1);
+            padding-bottom: spacing(1);
         }
     }
 
-    /* ======================================================
-       NAVBAR - Barra de navegação principal
-    ====================================================== */
-    .navbar {
-        @include m.flex(row, space-between, center);
-        padding: var(--spacing-md) var(--spacing-lg);
-        max-width: map.get(b.$breakpoints, 'xlarge');
-        margin: 0 auto;
+    // Container dentro do header
+    .container {
+        @include flex(row, space-between, center);
         position: relative;
-        transition: all var(--transition-normal);
+    }
 
-        @include m.respond-to('medium') {
-            padding: var(--spacing-sm) var(--spacing-md);
-        }
+    // Navbar dentro do header
+    .navbar {
+        width: 100%;
+        padding: 0;
+        @include flex(row, space-between, center);
 
-        /* ======================================================
-         LOGO - Logo e título do site
-      ====================================================== */
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            position: relative;
-            z-index: z.z('navigation') + 1; // Garantir que fique acima do menu móvel
-            transition: all var(--transition-normal);
+        // Brand/Logo
+        .navbar-brand {
+            @include flex(row, center, center);
+            padding: 0;
+            margin-right: spacing(4);
+            transition: $transition-base;
+            text-decoration: none;
 
             img {
-                top: 15px;
-                width: 90px;
-                height: 60px;
-                filter: drop-shadow(0 0 5px rgba(v.$accent, 0.5));
-                transition: all var(--transition-normal);
+                max-height: 60px;
+                transition: $transition-base;
+                object-fit: contain;
             }
 
             h3 {
-                color: v.$accent;
-                margin: 0;
-                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-                transition: all var(--transition-normal);
+                margin: 0 0 0 spacing(3);
+                font-size: rem(24);
+                font-weight: $font-weight-bold;
+                color: $primary-color;
+                transition: $transition-base;
+                line-height: 1.2;
 
                 span {
-                    color: v.$text-light;
-                    transition: color var(--transition-normal);
-                }
-
-                &:hover span {
-                    color: v.$accent-light;
-                }
-            }
-        }
-
-        /* ======================================================
-         NAV LINKS - Links de navegação principal
-      ====================================================== */
-
-        .nav-links {
-            @include m.flex(row, center, center, var(--spacing-lg));
-            list-style: none;
-            transition: all var(--transition-normal);
-
-            // Versão mobile do menu
-            @include m.respond-to('medium') {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 100%;
-                height: 100vh;
-                background: rgba(v.$background-dark, 0.98);
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                gap: 2rem;
-                z-index: z.z('navigation');
-                transition: right var(--transition-normal) ease;
-
-                &.active {
-                    right: 0;
+                    color: $accent-color;
                 }
             }
 
-            /* ======================================================
-           NAV ITEMS - Itens individuais do menu
-        ====================================================== */
+            // Hover state
+            &:hover {
+                text-decoration: none;
 
-            li {
-                position: relative;
+                h3 {
+                    color: $primary-dark;
 
-                // Animação para menu mobile
-                @include m.respond-to('medium') {
-                    opacity: 0;
-                    transform: translateY(20px);
-                    animation: slideUp 0.5s ease forwards;
-
-                    // Loop para atrasar a animação de cada item
-                    @for $i from 1 through 6 {
-                        &:nth-child(#{$i}) {
-                            animation-delay: 0.1s * $i;
-                        }
-                    }
-
-                    &.visible {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-
-                /* ======================================================
-             NAV LINKS - Links dentro dos itens de navegação
-          ====================================================== */
-
-                a {
-                    position: relative;
-                    padding: var(--spacing-xs) var(--spacing-sm);
-                    color: v.$text-light;
-                    text-decoration: none;
-                    font-weight: 500;
-                    transition: all var(--transition-normal);
-                    display: inline-block;
-
-                    // Ajuste para dispositivos médios
-                    @include m.respond-to('medium') {
-                        font-size: 1.5rem;
-                        padding: 1rem 2rem;
-                        font-weight: 600;
-                    }
-
-                    // Sublinhado animado no hover
-                    &::after {
-                        content: '';
-                        position: absolute;
-                        bottom: -2px;
-                        left: 0;
-                        width: 100%;
-                        height: 2px;
-                        background: linear-gradient(
-                            to right,
-                            v.$accent-dark,
-                            v.$accent,
-                            v.$accent-dark
-                        );
-                        transform: scaleX(0);
-                        transition: transform var(--transition-normal);
-                        transform-origin: right;
-
-                        @include m.respond-to('medium') {
-                            height: 3px;
-                            bottom: 0.5rem;
-                        }
-                    }
-
-                    &:hover,
-                    &.active {
-                        color: v.$accent;
-                        transform: translateY(-2px);
-
-                        &::after {
-                            transform: scaleX(1);
-                            transform-origin: left;
-                        }
-                    }
-                }
-
-                /* ======================================================
-             BOTÃO RESERVAR - Destaque para CTA principal
-          ====================================================== */
-
-                &.book-now {
-                    margin-left: 1rem;
-
-                    @include m.respond-to('medium') {
-                        margin-left: 0;
-                        margin-top: 1.5rem;
+                    span {
+                        color: darken($accent-color, 10%);
                     }
                 }
             }
         }
 
-        /* ======================================================
-         HAMBURGER - Botão para menu mobile
-      ====================================================== */
-
-        .hamburger {
+        // Botão toggle para menu mobile
+        .navbar-toggler {
+            @include button-reset;
             display: none;
-            cursor: pointer;
-            background: transparent;
-            border: none;
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
+            padding: spacing(2);
+            border-radius: $border-radius;
+            background-color: rgba($primary-color, 0.05);
+            transition: $transition-base;
             position: relative;
-            z-index: z.z('navigation') + 1; // Garantir que fique acima do menu móvel
-            padding: 10px;
-            border-radius: 50%;
-            transition: all var(--transition-normal);
-
-            @include m.respond-to('medium') {
-                display: block;
-            }
+            z-index: z-index(fixed) + 1;
 
             &:hover {
-                background: rgba(v.$accent, 0.1);
+                background-color: rgba($primary-color, 0.1);
             }
 
-            .hamburger-box {
-                width: 100%;
-                height: 100%;
-                position: relative;
+            .lexicon-icon {
+                width: 20px;
+                height: 20px;
+                color: $primary-color;
+                transition: $transition-base;
+            }
+
+            &.active {
+                background-color: $primary-color;
+
+                .lexicon-icon {
+                    color: white;
+                }
+            }
+
+            @include respond-to(tablet) {
                 display: flex;
                 align-items: center;
                 justify-content: center;
             }
+        }
 
-            // Barras do hamburger
-            .hamburger-inner {
-                width: 22px;
-                height: 2px;
-                background-color: v.$accent;
-                border-radius: 3px;
-                position: relative;
-                transition: all 0.3s ease;
+        // Container do menu
+        .navbar-collapse {
+            @include flex(row, flex-end, center);
+            flex: 1;
 
-                &::before,
-                &::after {
-                    content: '';
-                    position: absolute;
-                    width: 22px;
-                    height: 2px;
-                    background-color: v.$accent;
-                    border-radius: 3px;
-                    transition: all 0.3s ease;
+            @include respond-to(tablet) {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                padding: spacing(6) spacing(4);
+                background-color: white;
+                @include box-shadow($box-shadow-lg);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                transition: $transition-base;
+                overflow-y: auto;
+                z-index: z-index(fixed);
+
+                &.show {
+                    right: 0;
                 }
+            }
+        }
 
-                &::before {
-                    top: -7px;
-                }
+        // Links de navegação
+        .navbar-nav {
+            @include flex(row, center, center);
+            margin: 0;
+            padding: 0;
+            list-style: none;
 
-                &::after {
-                    bottom: -7px;
+            .nav-item {
+                margin: 0 spacing(2);
+
+                @include respond-to(tablet) {
+                    margin: 0 0 spacing(2);
+                    width: 100%;
                 }
             }
 
-            // Estado ativo do hamburger (X)
-            &.active {
-                .hamburger-inner {
-                    background-color: transparent;
+            .nav-link {
+                color: $primary-color;
+                font-weight: $font-weight-medium;
+                padding: spacing(2) spacing(3);
+                border-radius: $border-radius-sm;
+                transition: $transition-base;
+                text-decoration: none;
 
-                    &::before {
-                        top: 0;
-                        transform: rotate(45deg);
-                    }
+                &:hover {
+                    color: $accent-color;
+                    background-color: rgba($accent-color, 0.1);
+                }
 
-                    &::after {
-                        bottom: 0;
-                        transform: rotate(-45deg);
-                    }
+                &.active {
+                    color: $accent-color;
+                    background-color: rgba($accent-color, 0.1);
+                }
+
+                @include respond-to(tablet) {
+                    width: 100%;
+                    text-align: left;
                 }
             }
         }
     }
 
-    /* ======================================================
-       OVERLAY - Fundo escuro para o menu mobile
-    ====================================================== */
+    // Links do usuário
+    .user-links {
+        @include flex(row, center, center);
+        margin-left: spacing(4);
 
-    .overlay {
+        .btn {
+            @include flex(row, center, center);
+            padding: spacing(2) spacing(3);
+            border-radius: $border-radius-sm;
+            transition: $transition-base;
+            text-decoration: none;
+            font-weight: $font-weight-medium;
+
+            &.btn-primary {
+                background-color: $primary-color;
+                color: white;
+
+                &:hover {
+                    background-color: darken($primary-color, 10%);
+                    transform: translateY(-2px);
+                    @include box-shadow($box-shadow-sm);
+                }
+            }
+
+            &.btn-outline {
+                border: 1px solid $primary-color;
+                color: $primary-color;
+
+                &:hover {
+                    background-color: $primary-color;
+                    color: white;
+                    transform: translateY(-2px);
+                    @include box-shadow($box-shadow-sm);
+                }
+            }
+
+            .lexicon-icon {
+                margin-right: spacing(2);
+                width: 18px;
+                height: 18px;
+            }
+        }
+
+        @include respond-to(tablet) {
+            margin: spacing(4) 0 0;
+            width: 100%;
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    }
+
+    // Efeito overlay para menu mobile
+    .header-overlay {
+        display: none;
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        opacity: 0;
-        visibility: hidden;
-        transition: all var(--transition-normal);
-        z-index: z.z('overlay');
+        height: 100vh;
+        background-color: rgba(black, 0.5);
+        z-index: z-index(offcanvas);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
 
-        &.active {
-            opacity: 1;
-            visibility: visible;
+        @include respond-to(tablet) {
+            &.show {
+                display: block;
+            }
         }
     }
 
-    // Ajustes para dispositivos pequenos
-    @include m.respond-to('small') {
-        .navbar {
-            padding: var(--spacing-xs) var(--spacing-sm);
+    // Estilo para dispositivos mobile (tablet e abaixo)
+    @include respond-to(tablet) {
+        .container {
+            padding-left: spacing(3);
+            padding-right: spacing(3);
+        }
 
-            .logo {
-                img {
-                    height: 40px;
-                }
-
-                h3 {
-                    font-size: 1.3rem;
-                }
+        .navbar-brand {
+            h3 {
+                font-size: rem(20);
             }
+        }
+    }
+
+    // Estilo para dispositivos muito pequenos
+    @include respond-to(xs) {
+        .navbar-brand {
+            img {
+                max-height: 40px;
+            }
+
+            h3 {
+                font-size: rem(18);
+                margin-left: spacing(2);
+            }
+        }
+
+        .user-links {
+            .btn {
+                padding: spacing(1.5) spacing(2);
+                font-size: rem(14);
+            }
+        }
+    }
+}
+
+// Espaçamento para o conteúdo (para compensar o header fixo)
+body {
+    padding-top: 90px; // Altura estimada do header
+
+    &.has-control-menu {
+        padding-top: calc(90px + var(--control-menu-height, 0px));
+    }
+
+    // Ajustar quando header estiver no modo scrolled
+    .livingstone-header.scrolled + & {
+        padding-top: 70px; // Altura estimada do header scrolled
+
+        &.has-control-menu {
+            padding-top: calc(70px + var(--control-menu-height, 0px));
         }
     }
 }

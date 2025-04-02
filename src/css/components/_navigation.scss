@@ -1,0 +1,221 @@
+/* Navigation - Estilos para menus de navegação */
+
+// Estilos para navegação principal
+.navbar-nav {
+    @include flex(row, center, center, nowrap, spacing(3));
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    // Item do menu
+    .nav-item {
+        position: relative;
+
+        // Estilo para quando possui submenu
+        &.dropdown {
+            .nav-link::after {
+                content: '';
+                display: inline-block;
+                margin-left: spacing(1);
+                vertical-align: middle;
+                width: 8px;
+                height: 8px;
+                border-right: 2px solid currentColor;
+                border-bottom: 2px solid currentColor;
+                transform: rotate(45deg) translateY(-2px);
+                transition: $transition-fast;
+            }
+
+            &:hover .nav-link::after,
+            &.show .nav-link::after {
+                transform: rotate(-135deg) translateY(-2px);
+            }
+        }
+
+        &.active .nav-link {
+            color: $primary-color;
+            font-weight: $font-weight-bold;
+        }
+    }
+
+    // Link principal do menu
+    .nav-link {
+        display: block;
+        padding: spacing(2) spacing(3);
+        color: $text-dark;
+        font-weight: $font-weight-medium;
+        font-size: rem(16);
+        transition: $transition-base;
+        position: relative;
+
+        &::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            right: 50%;
+            height: 2px;
+            background-color: $accent-color;
+            opacity: 0;
+            transition: $transition-base;
+        }
+
+        &:hover,
+        &:focus,
+        &.active {
+            color: $primary-color;
+            text-decoration: none;
+
+            &::before {
+                left: 10%;
+                right: 10%;
+                opacity: 1;
+            }
+        }
+    }
+
+    // Submenu/dropdown
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: z-index(dropdown);
+        min-width: 220px;
+        padding: spacing(2) 0;
+        margin: spacing(1) 0 0;
+        background-color: white;
+        border: 1px solid $gray-200;
+        border-radius: $border-radius;
+        @include box-shadow($box-shadow);
+        transform: translateY(10px);
+        visibility: hidden;
+        opacity: 0;
+        transition: $transition-base;
+
+        // Item do submenu
+        .dropdown-item {
+            display: block;
+            width: 100%;
+            padding: spacing(2) spacing(3);
+            clear: both;
+            font-weight: $font-weight-normal;
+            color: $text-dark;
+            text-align: inherit;
+            white-space: nowrap;
+            background-color: transparent;
+            border: 0;
+            transition: $transition-fast;
+
+            &:hover,
+            &:focus {
+                color: $primary-color;
+                text-decoration: none;
+                background-color: rgba($primary-color, 0.05);
+            }
+
+            &.active {
+                color: $primary-color;
+                font-weight: $font-weight-semibold;
+                background-color: rgba($primary-color, 0.08);
+            }
+        }
+    }
+
+    // Mostrar dropdown no hover
+    .nav-item:hover > .dropdown-menu,
+    .nav-item.show > .dropdown-menu {
+        transform: translateY(0);
+        visibility: visible;
+        opacity: 1;
+    }
+
+    // Estilização para mobile
+    @include respond-to(tablet) {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+
+        .nav-item {
+            width: 100%;
+            margin-bottom: spacing(1);
+
+            &.dropdown .nav-link {
+                @include flex(row, space-between, center);
+
+                &::after {
+                    margin-left: auto;
+                }
+            }
+        }
+
+        .nav-link {
+            padding: spacing(2) 0;
+
+            &::before {
+                display: none;
+            }
+        }
+
+        .dropdown-menu {
+            position: static;
+            width: 100%;
+            border: none;
+            box-shadow: none;
+            background-color: rgba($primary-color, 0.05);
+            padding: 0 0 0 spacing(4);
+            margin-bottom: spacing(2);
+
+            .dropdown-item {
+                padding: spacing(2) spacing(2);
+            }
+        }
+    }
+}
+
+// Navegação do footer
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+        margin-bottom: spacing(2);
+
+        a {
+            color: rgba($text-light, 0.8);
+            transition: $transition-base;
+            display: flex;
+            align-items: center;
+
+            &::before {
+                content: '';
+                display: inline-block;
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background-color: $accent-color;
+                margin-right: spacing(2);
+                transition: $transition-fast;
+            }
+
+            &:hover,
+            &:focus {
+                color: $accent-color;
+                text-decoration: none;
+                transform: translateX(5px);
+
+                &::before {
+                    background-color: $text-light;
+                }
+            }
+        }
+    }
+
+    @include respond-to(mobile) {
+        text-align: center;
+
+        li a {
+            justify-content: center;
+        }
+    }
+}
