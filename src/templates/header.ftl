@@ -22,7 +22,7 @@
                 <!-- User Links -->
                 <div class="user-links">
                     <#if !is_signed_in>
-                        <a href="${sign_in_url}" class="btn btn-primary">
+                        <a href="/c/portal/login" class="btn btn-primary">
                             <svg class="lexicon-icon lexicon-icon-sign-in" focusable="false" role="presentation">
                                 <use href="${themeDisplay.getPathThemeImages()}/clay/icons.svg#sign-in" />
                             </svg>

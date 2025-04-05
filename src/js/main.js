@@ -7,12 +7,14 @@ document.addEventListener('DOMContentLoaded', function () {
     initializeHeader();
     initializeMenuBehavior();
     setupAccessibility();
+    detectLiferaySidebar();
 });
 
 // Quando o Liferay terminar de carregar todos os portlets
 Liferay.on('allPortletsReady', function () {
     console.log('All portlets are loaded');
     initializeDynamicComponents();
+    detectLiferaySidebar();
 });
 
 /**
@@ -226,6 +228,52 @@ function initializeDynamicComponents() {
             }
         });
     });
+}
+
+/**
+ * Detecta a abertura e fechamento do sidebar do Liferay
+ */
+function detectLiferaySidebar() {
+    // Verificar se o sidebar do Liferay está presente
+    const liferaySidebar = document.querySelector('.lfr-admin-panel');
+    
+    if (liferaySidebar) {
+        // Observar mudanças de visibilidade no sidebar do Liferay
+        const bodyObserver = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.attributeName === 'class') {
+                    const body = document.body;
+                    // Verificar se o sidebar do Liferay está aberto
+                    if (body.classList.contains('open-admin-panel') || 
+                        body.classList.contains('sidenav-toggler-open') ||
+                        body.classList.contains('lfr-has-sidebar')) {
+                        body.classList.add('open-admin-drawer');
+                        
+                        // Obter a largura do sidebar e definir como variável CSS
+                        const sidebarWidth = liferaySidebar.offsetWidth;
+                        document.documentElement.style.setProperty('--lfr-admin-drawer-width', `${sidebarWidth}px`);
+                    } else {
+                        body.classList.remove('open-admin-drawer');
+                    }
+                }
+            });
+        });
+        
+        // Iniciar a observação do body
+        bodyObserver.observe(document.body, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+        
+        // Verificar se o sidebar já está aberto no carregamento da página
+        if (document.body.classList.contains('open-admin-panel') || 
+            document.body.classList.contains('sidenav-toggler-open') ||
+            document.body.classList.contains('lfr-has-sidebar')) {
+            document.body.classList.add('open-admin-drawer');
+            const sidebarWidth = liferaySidebar.offsetWidth;
+            document.documentElement.style.setProperty('--lfr-admin-drawer-width', `${sidebarWidth}px`);
+        }
+    }
 }
 
 /**
