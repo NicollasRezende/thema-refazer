@@ -1,329 +1,463 @@
 /* Header - Estilos para o cabeçalho do site */
+@import '../abstracts/variables';
+@import '../abstracts/mixins';
+@import '../abstracts/functions';
 
 .livingstone-header {
     position: fixed;
-    top: 0;
+    width: 100%;
+    top: var(--control-menu-height, 0);
     left: 0;
     right: 0;
-    width: 100%;
-    z-index: z-index(fixed);
-    background-color: rgba($light-color, 0.95);
-    @include box-shadow;
-    padding: spacing(3) 0;
-    transition: $transition-base;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    z-index: 900;
+    background-color: rgba(
+        255,
+        255,
+        255,
+        0.95
+    ); // Reduz opacidade para maior leveza visual
+    backdrop-filter: blur(
+        12px
+    ); // Aumenta o desfoque para um efeito mais elegante
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba($livingstone-primary, 0.15); // Contraste levemente aumentado
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1); // Sombra mais suave e difusa
+    transition: all 0.3s ease-in-out; // Transição mais fluida
+    padding: livingstone-spacing(3) 0; // Espaçamento vertical maior para maior conforto visual
 
-    // Ajuste quando o controle-menu do Liferay estiver visível
-    .has-control-menu & {
-        top: var(--control-menu-height, 0);
-    }
-
-    // Estado para quando a página é scrollada
-    &.scrolled {
-        padding: spacing(2) 0;
-        background-color: rgba(white, 0.98);
-        @include box-shadow($box-shadow-lg);
-
-        .navbar-brand {
-            transform: scale(0.9);
-
-            img {
-                max-height: 50px;
-            }
-        }
-
-        .navbar-nav .nav-link {
-            padding-top: spacing(1);
-            padding-bottom: spacing(1);
-        }
+    // Ajuste para quando o sidebar do Liferay estiver aberto
+    .open-admin-panel & {
+        left: var(--lfr-admin-drawer-width, 0);
+        width: calc(100% - var(--lfr-admin-drawer-width, 0px));
     }
 
     // Container dentro do header
-    .container {
-        @include flex(row, space-between, center);
+    .livingstone-header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         position: relative;
+        padding: 0 livingstone-spacing(4); // Espaçamento horizontal maior
+        height: 80px; // Altura aumentada para maior destaque
+
+        @media (min-width: $livingstone-breakpoint-lg) {
+            padding: 0 livingstone-spacing(6);
+        }
     }
 
-    // Navbar dentro do header
-    .navbar {
-        width: 100%;
+    // Versão scrollada (menor)
+    &.livingstone-scrolled {
         padding: 0;
-        @include flex(row, space-between, center);
+        background-color: rgba(255, 255, 255, 0.9); // Fundo mais opaco ao rolar
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 
-        // Brand/Logo
-        .navbar-brand {
-            @include flex(row, center, center);
-            padding: 0;
-            margin-right: spacing(4);
-            transition: $transition-base;
-            text-decoration: none;
-
-            img {
-                max-height: 60px;
-                transition: $transition-base;
-                object-fit: contain;
-            }
-
-            h3 {
-                margin: 0 0 0 spacing(3);
-                font-size: rem(24);
-                font-weight: $font-weight-bold;
-                color: $primary-color;
-                transition: $transition-base;
-                line-height: 1.2;
-
-                span {
-                    color: $accent-color;
-                }
-            }
-
-            // Hover state
-            &:hover {
-                text-decoration: none;
-
-                h3 {
-                    color: $primary-dark;
-
-                    span {
-                        color: darken($accent-color, 10%);
-                    }
-                }
-            }
+        .livingstone-header-container {
+            height: 65px; // Altura reduzida para economizar espaço
         }
 
-        // Botão toggle para menu mobile
-        .navbar-toggler {
-            @include button-reset;
-            display: none;
-            width: 44px;
-            height: 44px;
-            padding: spacing(2);
-            border-radius: $border-radius;
-            background-color: rgba($primary-color, 0.05);
-            transition: $transition-base;
-            position: relative;
-            z-index: z-index(fixed) + 1;
+        .livingstone-logo {
+            transform: scale(0.85); // Reduz o tamanho do logotipo
 
-            &:hover {
-                background-color: rgba($primary-color, 0.1);
-            }
-
-            .lexicon-icon {
-                width: 20px;
-                height: 20px;
-                color: $primary-color;
-                transition: $transition-base;
-            }
-
-            &.active {
-                background-color: $primary-color;
-
-                .lexicon-icon {
-                    color: white;
-                }
-            }
-
-            @include respond-to(tablet) {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-        }
-
-        // Container do menu
-        .navbar-collapse {
-            @include flex(row, flex-end, center);
-            flex: 1;
-
-            @include respond-to(tablet) {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 280px;
-                height: 100vh;
-                padding: spacing(6) spacing(4);
-                background-color: white;
-                @include box-shadow($box-shadow-lg);
-                flex-direction: column;
-                justify-content: flex-start;
-                align-items: flex-start;
-                transition: $transition-base;
-                overflow-y: auto;
-                z-index: z-index(fixed);
-
-                &.show {
-                    right: 0;
-                }
-            }
-        }
-
-        // Links de navegação
-        .navbar-nav {
-            @include flex(row, center, center);
-            margin: 0;
-            padding: 0;
-            list-style: none;
-
-            .nav-item {
-                margin: 0 spacing(2);
-
-                @include respond-to(tablet) {
-                    margin: 0 0 spacing(2);
-                    width: 100%;
-                }
-            }
-
-            .nav-link {
-                color: $primary-color;
-                font-weight: $font-weight-medium;
-                padding: spacing(2) spacing(3);
-                border-radius: $border-radius-sm;
-                transition: $transition-base;
-                text-decoration: none;
-
-                &:hover {
-                    color: $accent-color;
-                    background-color: rgba($accent-color, 0.1);
-                }
-
-                &.active {
-                    color: $accent-color;
-                    background-color: rgba($accent-color, 0.1);
-                }
-
-                @include respond-to(tablet) {
-                    width: 100%;
-                    text-align: left;
-                }
-            }
-        }
-    }
-
-    // Links do usuário
-    .user-links {
-        @include flex(row, center, center);
-        margin-left: spacing(4);
-
-        .btn {
-            @include flex(row, center, center);
-            padding: spacing(2) spacing(3);
-            border-radius: $border-radius-sm;
-            transition: $transition-base;
-            text-decoration: none;
-            font-weight: $font-weight-medium;
-
-            &.btn-primary {
-                background-color: $primary-color;
-                color: white;
-
-                &:hover {
-                    background-color: darken($primary-color, 10%);
-                    transform: translateY(-2px);
-                    @include box-shadow($box-shadow-sm);
-                }
-            }
-
-            &.btn-outline {
-                border: 1px solid $primary-color;
-                color: $primary-color;
-
-                &:hover {
-                    background-color: $primary-color;
-                    color: white;
-                    transform: translateY(-2px);
-                    @include box-shadow($box-shadow-sm);
-                }
-            }
-
-            .lexicon-icon {
-                margin-right: spacing(2);
-                width: 18px;
-                height: 18px;
-            }
-        }
-
-        @include respond-to(tablet) {
-            margin: spacing(4) 0 0;
-            width: 100%;
-
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-    }
-
-    // Efeito overlay para menu mobile
-    .header-overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100vh;
-        background-color: rgba(black, 0.5);
-        z-index: z-index(offcanvas);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-
-        @include respond-to(tablet) {
-            &.show {
-                display: block;
-            }
-        }
-    }
-
-    // Estilo para dispositivos mobile (tablet e abaixo)
-    @include respond-to(tablet) {
-        .container {
-            padding-left: spacing(3);
-            padding-right: spacing(3);
-        }
-
-        .navbar-brand {
-            h3 {
-                font-size: rem(20);
-            }
-        }
-    }
-
-    // Estilo para dispositivos muito pequenos
-    @include respond-to(xs) {
-        .navbar-brand {
             img {
                 max-height: 40px;
             }
 
-            h3 {
-                font-size: rem(18);
-                margin-left: spacing(2);
+            .livingstone-logo-text {
+                font-size: livingstone-rem(18);
             }
         }
 
-        .user-links {
-            .btn {
-                padding: spacing(1.5) spacing(2);
-                font-size: rem(14);
+        .livingstone-nav-link {
+            padding-top: livingstone-spacing(1);
+            padding-bottom: livingstone-spacing(1);
+        }
+    }
+
+    // Logotipo
+    .livingstone-logo {
+        display: flex;
+        align-items: center;
+        padding: 0;
+        margin-right: livingstone-spacing(
+            5
+        ); // Maior espaçamento entre o logo e os itens
+        transition: all 0.3s ease-in-out;
+        text-decoration: none;
+        flex-shrink: 0;
+
+        img {
+            max-height: 55px; // Tamanho ligeiramente maior para maior destaque
+            transition: all 0.3s ease-in-out;
+            object-fit: contain;
+        }
+
+        .livingstone-logo-text {
+            margin: 0 0 0 livingstone-spacing(3); // Espaçamento maior entre o texto e o logo
+            font-size: livingstone-rem(
+                24
+            ); // Tamanho maior para maior legibilidade
+            font-weight: 700;
+            font-family: $livingstone-font-heading;
+            color: $livingstone-primary;
+            transition: all 0.3s ease-in-out;
+            line-height: 1.2;
+
+            .livingstone-accent-text {
+                color: $livingstone-gold;
+            }
+        }
+
+        &:hover {
+            text-decoration: none;
+
+            .livingstone-logo-text {
+                color: darken($livingstone-primary, 8%);
+
+                .livingstone-accent-text {
+                    color: darken($livingstone-gold, 5%);
+                }
+            }
+        }
+    }
+
+    // Botão toggle para menu mobile
+    .livingstone-navbar-toggler {
+        background: none;
+        border: none;
+        padding: livingstone-spacing(2) livingstone-spacing(3); // Botão maior para maior usabilidade
+        font: inherit;
+        color: inherit;
+        cursor: pointer;
+        outline: none;
+        display: none;
+        width: 48px;
+        height: 48px;
+        border-radius: $livingstone-border-radius;
+        background-color: rgba($livingstone-primary, 0.1); // Fundo mais visível
+        transition: all 0.3s ease-in-out;
+
+        .livingstone-toggler-icon {
+            position: relative;
+            display: inline-block;
+            width: 24px; // Ligeiramente maior para melhor visibilidade
+            height: 2px;
+            background-color: $livingstone-primary;
+            transition: background-color 0.3s ease-in-out;
+
+            &::before,
+            &::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background-color: $livingstone-primary;
+                transition: transform 0.3s ease-in-out;
+            }
+
+            &::before {
+                top: -8px; // Maior espaçamento entre as linhas
+            }
+
+            &::after {
+                bottom: -8px;
+            }
+        }
+
+        &.active {
+            .livingstone-toggler-icon {
+                background-color: transparent;
+
+                &::before {
+                    transform: rotate(45deg) translate(5px, 5px); // Transformação mais suave
+                }
+
+                &::after {
+                    transform: rotate(-45deg) translate(5px, -5px);
+                }
             }
         }
     }
 }
 
-// Espaçamento para o conteúdo (para compensar o header fixo)
-body {
-    padding-top: 90px; // Altura estimada do header
+// Media queries no nível raiz - Navbar toggler
+@media (max-width: ($livingstone-breakpoint-lg - 1)) {
+    .livingstone-header .livingstone-navbar-toggler {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
 
-    &.has-control-menu {
-        padding-top: calc(90px + var(--control-menu-height, 0px));
+// Navegação principal
+.livingstone-header .livingstone-navbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: auto;
+}
+
+// Media query para navegação em dispositivos menores
+@media (max-width: ($livingstone-breakpoint-lg - 1)) {
+    .livingstone-header .livingstone-navbar {
+        position: fixed;
+        top: 0;
+        right: -320px;
+        width: 320px;
+        height: 100vh;
+        background-color: white;
+        padding: 100px livingstone-spacing(5) livingstone-spacing(5);
+        box-shadow: -5px 0 25px rgba(0, 0, 0, 0.15);
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        transition: all 0.4s ease;
+        overflow-y: auto;
+        z-index: 1000;
+
+        &.livingstone-navbar-open {
+            right: 0;
+        }
+    }
+}
+
+// Links de navegação
+.livingstone-header .livingstone-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    .livingstone-nav-item {
+        margin: 0 livingstone-spacing(1);
+        position: relative;
+    }
+}
+
+// Media query para itens de navegação em dispositivos menores
+@media (max-width: ($livingstone-breakpoint-lg - 1)) {
+    .livingstone-header .livingstone-nav .livingstone-nav-item {
+        margin: livingstone-spacing(2) 0;
+        width: 100%;
+        border-bottom: 1px solid rgba($livingstone-primary, 0.05);
+        padding-bottom: livingstone-spacing(2);
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+}
+
+// Links estilo
+.livingstone-header .livingstone-nav .livingstone-nav-link {
+    display: block;
+    padding: livingstone-spacing(2) livingstone-spacing(2);
+    color: $livingstone-dark;
+    font-weight: 500;
+    font-size: livingstone-rem(15);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    position: relative;
+    font-family: $livingstone-font-heading;
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        right: 50%;
+        height: 2px;
+        background-color: $livingstone-gold;
+        transition: all 0.3s ease;
+        opacity: 0;
     }
 
-    // Ajustar quando header estiver no modo scrolled
-    .livingstone-header.scrolled + & {
-        padding-top: 70px; // Altura estimada do header scrolled
+    &:hover,
+    &:focus,
+    &.livingstone-active {
+        color: $livingstone-primary;
 
-        &.has-control-menu {
-            padding-top: calc(70px + var(--control-menu-height, 0px));
+        &::after {
+            left: 15%;
+            right: 15%;
+            opacity: 1;
+        }
+    }
+
+    &.livingstone-active {
+        font-weight: 700;
+        color: darken($livingstone-primary, 5%);
+    }
+}
+
+// Media query para estilos de links em dispositivos menores
+@media (max-width: ($livingstone-breakpoint-lg - 1)) {
+    .livingstone-header .livingstone-nav .livingstone-nav-link {
+        width: 100%;
+        padding: livingstone-spacing(2) 0;
+        font-size: livingstone-rem(18);
+
+        &::after {
+            display: none;
+        }
+
+        &:hover,
+        &:focus,
+        &.livingstone-active {
+            padding-left: livingstone-spacing(1);
+            background: linear-gradient(
+                90deg,
+                $livingstone-accent 0%,
+                transparent 100%
+            );
+            border-radius: $livingstone-border-radius;
+        }
+    }
+}
+
+// Links de usuário
+.livingstone-header .livingstone-user-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: livingstone-spacing(3);
+
+    .livingstone-btn {
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        font: inherit;
+        color: inherit;
+        cursor: pointer;
+        outline: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: livingstone-spacing(2) livingstone-spacing(3);
+        border-radius: $livingstone-border-radius;
+        font-weight: 500;
+        font-size: livingstone-rem(14);
+        transition: all 0.3s ease;
+        white-space: nowrap;
+
+        &.livingstone-btn-primary {
+            background-color: $livingstone-primary;
+            color: white;
+            box-shadow: 0 4px 6px rgba($livingstone-primary, 0.2);
+
+            &:hover {
+                background-color: darken($livingstone-primary, 7%);
+                transform: translateY(-2px);
+                box-shadow: 0 6px 10px rgba($livingstone-primary, 0.3);
+            }
+        }
+
+        &.livingstone-btn-outline {
+            border: 1px solid $livingstone-primary;
+            color: $livingstone-primary;
+
+            &:hover {
+                background-color: $livingstone-primary;
+                color: white;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 6px rgba($livingstone-primary, 0.15);
+            }
+        }
+
+        .livingstone-icon {
+            margin-right: livingstone-spacing(1);
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+        }
+    }
+
+    // Informações do usuário logado
+    .livingstone-user-info {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: livingstone-spacing(2);
+
+        .livingstone-user-greeting {
+            display: flex;
+            align-items: center;
+            color: $livingstone-dark;
+            font-size: livingstone-rem(14);
+
+            .livingstone-icon {
+                margin-right: livingstone-spacing(1);
+                color: $livingstone-primary;
+            }
+        }
+    }
+}
+
+// Media query para links de usuário em dispositivos menores
+@media (max-width: ($livingstone-breakpoint-lg - 1)) {
+    .livingstone-header .livingstone-user-links {
+        margin: livingstone-spacing(5) 0 0;
+        width: 100%;
+
+        .livingstone-btn,
+        .livingstone-user-info {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .livingstone-user-info {
+            flex-direction: column;
+            gap: livingstone-spacing(3);
+
+            .livingstone-user-greeting {
+                justify-content: center;
+                margin-bottom: livingstone-spacing(1);
+            }
+        }
+    }
+}
+
+// Overlay para menu mobile
+.livingstone-header .livingstone-header-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+
+    &.livingstone-visible {
+        display: block;
+    }
+}
+
+// Responsividade adicional para os logos
+@media (max-width: ($livingstone-breakpoint-lg - 1)) {
+    .livingstone-header .livingstone-logo .livingstone-logo-text {
+        font-size: livingstone-rem(18);
+    }
+}
+
+@media (max-width: ($livingstone-breakpoint-sm - 1)) {
+    .livingstone-header .livingstone-header-container {
+        padding: 0 livingstone-spacing(2);
+    }
+
+    .livingstone-header .livingstone-logo {
+        img {
+            max-height: 40px;
+        }
+
+        .livingstone-logo-text {
+            font-size: livingstone-rem(16);
         }
     }
 }

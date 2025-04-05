@@ -5,7 +5,7 @@
 	<compatibility>
 		<version>7.4.0+</version>
 	</compatibility>
-	<theme id="livingstone-hotel" name="Livingstone Hotel">
+	<theme id="livingstone-hotel" name="livingstone Hotel">
 		<template-extension>ftl</template-extension>
 		<portlet-decorator id="barebone" name="Barebone">
 			<portlet-decorator-css-class>portlet-barebone</portlet-decorator-css-class>

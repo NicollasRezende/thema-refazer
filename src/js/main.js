@@ -1,49 +1,134 @@
 /**
- * Main JavaScript for Livingstone Hotel Liferay Theme
+ * Main JavaScript for livingstone Hotel Liferay Theme
  */
 
 // Quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', function () {
-    initializeHeader();
-    initializeMenuBehavior();
-    setupAccessibility();
+    initializeTheme();
+    handleControlMenu();
+    initializeMenu();
+    handleScrolling();
     detectLiferaySidebar();
-});
-
-// Quando o Liferay terminar de carregar todos os portlets
-Liferay.on('allPortletsReady', function () {
-    console.log('All portlets are loaded');
-    initializeDynamicComponents();
-    detectLiferaySidebar();
+    fixSidebarToggleButton();
 });
 
 /**
- * Inicializa comportamentos do header
+ * Inicialização básica do tema
  */
-function initializeHeader() {
-    const header = document.querySelector('.livingstone-header');
-    const body = document.body;
+function initializeTheme() {
+    // Adicionar classe ao body para escopar os estilos do tema
+    document.body.classList.add('livingstone-theme');
+}
 
-    if (!header) return;
-
-    // Verificar se o controle-menu do Liferay está visível
+/**
+ * Detecta e configura o Control Menu do Liferay
+ */
+function handleControlMenu() {
     const controlMenu = document.querySelector('.control-menu');
+
     if (controlMenu) {
-        body.classList.add('has-control-menu');
-        // Define variável CSS com a altura do control-menu
+        // Adicionar classe ao body
+        document.body.classList.add('has-control-menu');
+
+        // Definir a altura do control menu como variável CSS
         const controlMenuHeight = controlMenu.offsetHeight;
         document.documentElement.style.setProperty(
             '--control-menu-height',
             `${controlMenuHeight}px`
         );
     }
+}
+
+/**
+ * Corrige o problema do botão de toggle do sidebar
+ */
+function fixSidebarToggleButton() {
+    // Função para resolver o problema dos ícones no botão de toggle
+    function adjustToggleButton() {
+        const toggleButtons = document.querySelectorAll(
+            '.product-menu-toggle, .sidenav-toggler'
+        );
+
+        toggleButtons.forEach(function (button) {
+            // Resetar todos os ícones primeiro
+            const allIcons = button.querySelectorAll(
+                '.lexicon-icon, .icon-open, .icon-close'
+            );
+            allIcons.forEach(function (icon) {
+                // Remove qualquer estilo inline que possa estar interferindo
+                icon.style.display = '';
+            });
+
+            // Agora aplicar as regras corretas com base na classe
+            const isOpen = button.classList.contains('sidenav-toggler-open');
+
+            // Encontrar os ícones específicos
+            const openIcon = button.querySelector(
+                '.icon-open, .lexicon-icon-bars'
+            );
+            const closeIcon = button.querySelector(
+                '.icon-close, .lexicon-icon-times'
+            );
+
+            if (openIcon && closeIcon) {
+                if (isOpen) {
+                    openIcon.style.display = 'none';
+                    closeIcon.style.display = 'inline-block';
+                } else {
+                    openIcon.style.display = 'inline-block';
+                    closeIcon.style.display = 'none';
+                }
+            }
+        });
+    }
+
+    // Executar inicialmente
+    adjustToggleButton();
+
+    // Observar mudanças nas classes do botão
+    const observer = new MutationObserver(function (mutations) {
+        adjustToggleButton();
+    });
+
+    const toggleButtons = document.querySelectorAll(
+        '.product-menu-toggle, .sidenav-toggler'
+    );
+    toggleButtons.forEach(function (button) {
+        observer.observe(button, {
+            attributes: true,
+            attributeFilter: ['class'],
+        });
+    });
+
+    // Também observar o DOM para novos botões que possam ser adicionados
+    const bodyObserver = new MutationObserver(function (mutations) {
+        const toggleButton = document.querySelector(
+            '.product-menu-toggle, .sidenav-toggler'
+        );
+        if (toggleButton) {
+            adjustToggleButton();
+        }
+    });
+
+    bodyObserver.observe(document.body, {
+        childList: true,
+        subtree: true,
+    });
+}
+
+/**
+ * Manipulador de scroll para efeitos de header
+ */
+function handleScrolling() {
+    const header = document.querySelector('.livingstone-header');
+    if (!header) return;
 
     // Efeito de scroll no header
     window.addEventListener('scroll', function () {
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
+        if (window.scrollY > 30) {
+            header.classList.add('livingstone-scrolled');
         } else {
-            header.classList.remove('scrolled');
+            header.classList.remove('livingstone-scrolled');
         }
     });
 
@@ -52,44 +137,48 @@ function initializeHeader() {
 }
 
 /**
- * Inicializa comportamento do menu (especialmente para mobile)
+ * Inicializa comportamento do menu mobile
  */
-function initializeMenuBehavior() {
-    const navbarToggler = document.querySelector('.navbar-toggler');
-    const navbarCollapse = document.querySelector('.navbar-collapse');
-    const headerOverlay = document.querySelector('.header-overlay');
+function initializeMenu() {
+    const menuToggler = document.querySelector('.livingstone-navbar-toggler');
+    const navbar = document.querySelector('.livingstone-navbar');
+    const overlay = document.querySelector('.livingstone-header-overlay');
 
-    if (!navbarToggler || !navbarCollapse) return;
+    if (!menuToggler || !navbar) return;
 
     // Função para fechar o menu
     function closeMenu() {
-        navbarCollapse.classList.remove('show');
-        if (headerOverlay) {
-            headerOverlay.classList.remove('show');
-        }
-        document.body.classList.remove('menu-open');
+        navbar.classList.remove('livingstone-navbar-open');
+        if (menuToggler) menuToggler.classList.remove('active');
+        if (overlay) overlay.classList.remove('livingstone-visible');
+        document.body.style.overflow = '';
     }
 
     // Toggle do menu
-    navbarToggler.addEventListener('click', function () {
-        navbarCollapse.classList.toggle('show');
-        if (headerOverlay) {
-            headerOverlay.classList.toggle('show');
+    menuToggler.addEventListener('click', function () {
+        navbar.classList.toggle('livingstone-navbar-open');
+        menuToggler.classList.toggle('active');
+        if (overlay) overlay.classList.toggle('livingstone-visible');
+
+        // Prevenir scroll do body quando menu estiver aberto
+        if (navbar.classList.contains('livingstone-navbar-open')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
         }
-        document.body.classList.toggle('menu-open');
     });
 
     // Fechar ao clicar no overlay
-    if (headerOverlay) {
-        headerOverlay.addEventListener('click', closeMenu);
+    if (overlay) {
+        overlay.addEventListener('click', closeMenu);
     }
 
     // Fechar ao clicar em link do menu (no mobile)
-    const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
-    navLinks.forEach(function (link) {
+    const menuLinks = document.querySelectorAll('.livingstone-nav-link');
+    menuLinks.forEach(function (link) {
         link.addEventListener('click', function () {
             // Só fechar se estiver no modo mobile (menu expanded)
-            if (navbarCollapse.classList.contains('show')) {
+            if (navbar.classList.contains('livingstone-navbar-open')) {
                 closeMenu();
             }
         });
@@ -99,190 +188,62 @@ function initializeMenuBehavior() {
     window.addEventListener('resize', function () {
         if (
             window.innerWidth >= 992 &&
-            navbarCollapse.classList.contains('show')
+            navbar.classList.contains('livingstone-navbar-open')
         ) {
             closeMenu();
         }
     });
-
-    // Comportamento de dropdowns nos dispositivos móveis
-    setupDropdowns();
 }
 
 /**
- * Configuração dos dropdowns do menu
- */
-function setupDropdowns() {
-    const dropdownItems = document.querySelectorAll('.nav-item.dropdown');
-
-    dropdownItems.forEach(function (item) {
-        const link = item.querySelector('.nav-link');
-        const menu = item.querySelector('.dropdown-menu');
-
-        if (!link || !menu) return;
-
-        // Em dispositivos móveis, evitar que o clique no link abra a página
-        link.addEventListener('click', function (e) {
-            // Verificar se estamos em viewport mobile
-            if (window.innerWidth < 992) {
-                e.preventDefault();
-                menu.classList.toggle('show');
-            }
-        });
-
-        // Em desktop, mostrar/ocultar no hover
-        if (window.matchMedia('(min-width: 992px)').matches) {
-            item.addEventListener('mouseenter', function () {
-                menu.classList.add('show');
-            });
-
-            item.addEventListener('mouseleave', function () {
-                menu.classList.remove('show');
-            });
-        }
-    });
-}
-
-/**
- * Melhoria de acessibilidade para componentes interativos
- */
-function setupAccessibility() {
-    // Melhorar acessibilidade dos ícones interativos
-    const iconLinks = document.querySelectorAll('a[aria-label]');
-    iconLinks.forEach(function (link) {
-        // Garantir que ícones SVG tenham papel apresentacional
-        const svg = link.querySelector('svg');
-        if (svg) {
-            svg.setAttribute('focusable', 'false');
-            svg.setAttribute('role', 'presentation');
-        }
-    });
-
-    // Garantir que todos os formulários têm labels acessíveis
-    const formInputs = document.querySelectorAll('input, textarea, select');
-    formInputs.forEach(function (input) {
-        if (!input.id) {
-            input.id = 'input-' + Math.random().toString(36).substr(2, 9);
-        }
-
-        // Se não tiver label, verificar se tem placeholder e criar aria-label
-        const hasLabel = document.querySelector(`label[for="${input.id}"]`);
-        if (
-            !hasLabel &&
-            input.placeholder &&
-            !input.getAttribute('aria-label')
-        ) {
-            input.setAttribute('aria-label', input.placeholder);
-        }
-    });
-}
-
-/**
- * Inicializa componentes dinâmicos após o carregamento dos portlets
- */
-function initializeDynamicComponents() {
-    // Adicionar tooltips do Bootstrap se existirem
-    if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
-        const tooltips = document.querySelectorAll(
-            '[data-bs-toggle="tooltip"]'
-        );
-        tooltips.forEach(function (tooltip) {
-            new bootstrap.Tooltip(tooltip);
-        });
-    }
-
-    // Inicializar scrollspy para o menu se existir
-    if (typeof bootstrap !== 'undefined' && bootstrap.ScrollSpy) {
-        const body = document.body;
-        if (body) {
-            new bootstrap.ScrollSpy(body, {
-                target: '.navbar-nav',
-                offset: 100,
-            });
-        }
-    }
-
-    // Animação suave de scroll para links internos
-    const internalLinks = document.querySelectorAll(
-        'a[href^="#"]:not([href="#"])'
-    );
-    internalLinks.forEach(function (link) {
-        link.addEventListener('click', function (e) {
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-
-            if (targetElement) {
-                e.preventDefault();
-                const headerHeight = document.querySelector(
-                    '.livingstone-header'
-                ).offsetHeight;
-                const targetPosition =
-                    targetElement.getBoundingClientRect().top +
-                    window.pageYOffset -
-                    headerHeight;
-
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth',
-                });
-            }
-        });
-    });
-}
-
-/**
- * Detecta a abertura e fechamento do sidebar do Liferay
+ * Detecta e ajusta para o sidebar do Liferay
  */
 function detectLiferaySidebar() {
     // Verificar se o sidebar do Liferay está presente
     const liferaySidebar = document.querySelector('.lfr-admin-panel');
-    
+
     if (liferaySidebar) {
-        // Observar mudanças de visibilidade no sidebar do Liferay
-        const bodyObserver = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
+        // Verificar se o sidebar está aberto
+        if (
+            document.body.classList.contains('open-admin-panel') ||
+            document.body.classList.contains('sidenav-toggler-open') ||
+            document.body.classList.contains('lfr-has-sidebar')
+        ) {
+            // Obter a largura do sidebar e definir como variável CSS
+            const sidebarWidth = liferaySidebar.offsetWidth;
+            document.documentElement.style.setProperty(
+                '--lfr-admin-drawer-width',
+                `${sidebarWidth}px`
+            );
+        }
+
+        // Observar mudanças de classe no body
+        const bodyObserver = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
                 if (mutation.attributeName === 'class') {
-                    const body = document.body;
                     // Verificar se o sidebar do Liferay está aberto
-                    if (body.classList.contains('open-admin-panel') || 
-                        body.classList.contains('sidenav-toggler-open') ||
-                        body.classList.contains('lfr-has-sidebar')) {
-                        body.classList.add('open-admin-drawer');
-                        
+                    if (
+                        document.body.classList.contains('open-admin-panel') ||
+                        document.body.classList.contains(
+                            'sidenav-toggler-open'
+                        ) ||
+                        document.body.classList.contains('lfr-has-sidebar')
+                    ) {
                         // Obter a largura do sidebar e definir como variável CSS
                         const sidebarWidth = liferaySidebar.offsetWidth;
-                        document.documentElement.style.setProperty('--lfr-admin-drawer-width', `${sidebarWidth}px`);
-                    } else {
-                        body.classList.remove('open-admin-drawer');
+                        document.documentElement.style.setProperty(
+                            '--lfr-admin-drawer-width',
+                            `${sidebarWidth}px`
+                        );
                     }
                 }
             });
         });
-        
+
         // Iniciar a observação do body
         bodyObserver.observe(document.body, {
             attributes: true,
-            attributeFilter: ['class']
+            attributeFilter: ['class'],
         });
-        
-        // Verificar se o sidebar já está aberto no carregamento da página
-        if (document.body.classList.contains('open-admin-panel') || 
-            document.body.classList.contains('sidenav-toggler-open') ||
-            document.body.classList.contains('lfr-has-sidebar')) {
-            document.body.classList.add('open-admin-drawer');
-            const sidebarWidth = liferaySidebar.offsetWidth;
-            document.documentElement.style.setProperty('--lfr-admin-drawer-width', `${sidebarWidth}px`);
-        }
     }
-}
-
-/**
- * Helper para detectar se a tela é touch
- */
-function isTouchDevice() {
-    return (
-        'ontouchstart' in window ||
-        navigator.maxTouchPoints > 0 ||
-        navigator.msMaxTouchPoints > 0
-    );
 }

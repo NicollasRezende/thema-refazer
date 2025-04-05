@@ -1,126 +1,87 @@
-/* Variables - Cores, fontes e valores reutilizáveis */
+/* Variables - Custom theme variables */
 
-// Prefixo para variáveis CSS
+// Prefixo para variáveis CSS personalizadas
 $prefix: 'livingstone';
 
-// Cores principais da marca
-$primary-color: #1b1a55;
-$primary-light: #535c91;
-$primary-dark: #10375c;
-$accent-color: #ffd95a;
-$accent-dark: #c07f00;
-$accent-light: #fff7d4;
+// Cores principais do tema
+$livingstone-primary: #1a1a40; // Azul marinho para um tom sofisticado e confiável
+$livingstone-secondary: #d4af37; // Dourado suave para detalhes elegantes
+$livingstone-accent: #f8f8f8; // Branco gelo para um fundo limpo e luxuoso
+$livingstone-gold: #d4af37; // Dourado suave para consistência com o secundário
+$livingstone-dark: #2e2e2e; // Cinza chumbo para contraste e profundidade
 
-// Cores neutras
-$dark-color: #222831;
-$light-color: #f4f6ff;
-$text-dark: #4c3d3d;
-$text-light: #f4f6ff;
-$gray-100: #f8f9fa;
-$gray-200: #e9ecef;
-$gray-300: #dee2e6;
-$gray-400: #ced4da;
-$gray-500: #adb5bd;
-$gray-600: #6c757d;
-$gray-700: #495057;
-$gray-800: #343a40;
-$gray-900: #212529;
+// Cores neutras (não sobrescrevem variáveis do Liferay)
+$livingstone-text-dark: #2e2e2e; // Cinza chumbo para texto escuro
+$livingstone-text-light: #f8f8f8; // Branco gelo para texto claro
+$livingstone-gray-100: #f8f8f8; // Branco gelo para fundos muito claros
+$livingstone-gray-200: #e9ecef; // Cinza claro para bordas e divisores
+$livingstone-gray-300: #dee2e6; // Cinza médio para elementos neutros
+$livingstone-gray-400: #ced4da; // Cinza mais escuro para detalhes
+$livingstone-gray-500: #adb5bd; // Cinza neutro para equilíbrio
+$livingstone-gray-600: #6c757d; // Cinza escuro para texto secundário
+$livingstone-gray-700: #495057; // Cinza muito escuro para contraste
+$livingstone-gray-800: #343a40; // Cinza quase preto para elementos destacados
+$livingstone-gray-900: #212529; // Cinza mais profundo para fundos escuros
 
 // Fontes
-$font-heading: 'Playfair Display', serif;
-$font-body: 'Raleway', sans-serif;
-$font-weight-normal: 400;
-$font-weight-medium: 500;
-$font-weight-semibold: 600;
-$font-weight-bold: 700;
+$livingstone-font-heading: 'Montserrat', sans-serif;
+$livingstone-font-body: 'Open Sans', sans-serif;
+$livingstone-font-weight-light: 300;
+$livingstone-font-weight-normal: 400;
+$livingstone-font-weight-medium: 500;
+$livingstone-font-weight-bold: 600;
+$livingstone-font-weight-extra-bold: 700;
 
 // Espaçamentos
-$spacer: 1rem;
-$spacers: (
+$livingstone-spacer: 1rem;
+$livingstone-spacers: (
     0: 0,
-    1: $spacer * 0.25,
+    1: $livingstone-spacer * 0.25,
     // 0.25rem
-    1.5: $spacer * 0.375,
-    // 0.375rem
-    2: $spacer * 0.5,
+    2: $livingstone-spacer * 0.5,
     // 0.5rem
-    3: $spacer,
+    3: $livingstone-spacer,
     // 1rem
-    4: $spacer * 1.5,
+    4: $livingstone-spacer * 1.5,
     // 1.5rem
-    5: $spacer * 2,
+    5: $livingstone-spacer * 2,
     // 2rem
-    6: $spacer * 3,
+    6: $livingstone-spacer * 3,
     // 3rem
-    7: $spacer * 4,
+    7: $livingstone-spacer * 4,
     // 4rem
-    8: $spacer * 5,
-    // 5rem
-    9: $spacer * 6 // 6rem,
+    8: $livingstone-spacer * 5 // 5rem,,,
 );
 
 // Breakpoints
-$breakpoint-xs: 0;
-$breakpoint-sm: 576px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 992px;
-$breakpoint-xl: 1200px;
-$breakpoint-xxl: 1400px;
-
-// Containers
-$container-max-widths: (
-    sm: 540px,
-    md: 720px,
-    lg: 960px,
-    xl: 1140px,
-    xxl: 1320px,
-);
-
-// Z-index
-$z-index-dropdown: 1000;
-$z-index-sticky: 1020;
-$z-index-fixed: 1030;
-$z-index-offcanvas: 1040;
-$z-index-modal-backdrop: 1050;
-$z-index-modal: 1060;
-$z-index-popover: 1070;
-$z-index-tooltip: 1080;
+$livingstone-breakpoint-xs: 0;
+$livingstone-breakpoint-sm: 576px;
+$livingstone-breakpoint-md: 768px;
+$livingstone-breakpoint-lg: 992px;
+$livingstone-breakpoint-xl: 1200px;
+$livingstone-breakpoint-xxl: 1400px;
 
 // Bordas
-$border-radius-sm: 0.25rem;
-$border-radius: 0.375rem;
-$border-radius-lg: 0.5rem;
-$border-radius-xl: 1rem;
-$border-radius-pill: 50rem;
+$livingstone-border-radius-sm: 0.25rem;
+$livingstone-border-radius: 0.375rem;
+$livingstone-border-radius-lg: 0.5rem;
+$livingstone-border-radius-xl: 1rem;
 
 // Sombras
-$box-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-$box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-$box-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+$livingstone-box-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+$livingstone-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+$livingstone-box-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
 
 // Transições
-$transition-base: all 0.3s ease;
-$transition-fast: all 0.2s ease;
-$transition-slow: all 0.5s ease;
+$livingstone-transition-base: all 0.3s ease;
+$livingstone-transition-fast: all 0.2s ease;
+$livingstone-transition-slow: all 0.5s ease;
 
 // Z-index
-$z-indexes: (
-    dropdown: $z-index-dropdown,
-    sticky: $z-index-sticky,
-    fixed: $z-index-fixed,
-    offcanvas: $z-index-offcanvas,
-    modal-backdrop: $z-index-modal-backdrop,
-    modal: $z-index-modal,
-    popover: $z-index-popover,
-    tooltip: $z-index-tooltip
-);
-
-// Breakpoints
-$breakpoints: (
-    xs: $breakpoint-xs,
-    sm: $breakpoint-sm,
-    md: $breakpoint-md,
-    lg: $breakpoint-lg,
-    xl: $breakpoint-xl,
-    xxl: $breakpoint-xxl
-);
+$livingstone-z-index-dropdown: 1000;
+$livingstone-z-index-sticky: 1020;
+$livingstone-z-index-fixed: 1030;
+$livingstone-z-index-modal-backdrop: 1040;
+$livingstone-z-index-modal: 1050;
+$livingstone-z-index-popover: 1060;
+$livingstone-z-index-tooltip: 1070;

@@ -1,217 +1,285 @@
-/* Responsive - Utilitários e ajustes para responsividade */
+/* Responsive - Estilos responsivos adicionais */
+@import '../abstracts/variables';
+@import '../abstracts/mixins';
+@import '../abstracts/functions';
 
-// Classes para visibilidade responsiva
-.ls-hide {
+// Define a variável CSS para a altura do control menu
+:root {
+    --control-menu-height: 0px;
+}
+
+// Garantir que o control menu do Liferay ocupe toda a largura, preservando ícones
+.control-menu {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    z-index: 1100 !important;
+}
+
+// Estes seletores são mais específicos para não quebrar elementos internos
+.control-menu-container {
+    width: 100% !important;
+}
+
+.control-menu-level-1 {
+    width: 100% !important;
+}
+
+// Preservar a aparência dos ícones e elementos do control menu
+.control-menu .control-menu-nav > li {
+    display: inline-block;
+}
+
+.control-menu .lfr-icon,
+.control-menu .lexicon-icon,
+.control-menu svg,
+.control-menu [class*='icon-'] {
+    display: inline-block;
+}
+
+// Ajustes responsivos para o corpo da página
+body {
+    // Altura estimada do header (70px) para evitar que o conteúdo fique escondido
+    padding-top: 70px;
+
+    // Ajuste quando header estiver no modo scrolled
+    .livingstone-header.livingstone-scrolled + & {
+        padding-top: 60px;
+    }
+
+    // Ajuste quando o sidebar do Liferay estiver aberto
+    &.open-admin-panel {
+        margin-left: var(--lfr-admin-drawer-width, 0px);
+        transition: margin-left 0.3s ease;
+    }
+}
+
+// Atualizar o padding-top quando o control menu estiver presente
+body.has-control-menu {
+    padding-top: calc(70px + var(--control-menu-height, 0px));
+
+    .livingstone-header.livingstone-scrolled + & {
+        padding-top: calc(60px + var(--control-menu-height, 0px));
+    }
+
+    // Garantir que o header respeite o control menu
+    .livingstone-header {
+        top: var(--control-menu-height, 0px);
+    }
+}
+
+// Preservar os estilos originais dos componentes do Control Menu
+.control-menu .control-menu-level-1 .toolbar-group-content {
+    display: inherit;
+}
+
+.control-menu .control-menu-level-1 .toolbar-group-field {
+    display: inherit;
+}
+
+// Classes de visibilidade responsiva
+.livingstone-hide {
     display: none !important;
 }
 
-.ls-show {
+.livingstone-show {
     display: block !important;
 }
 
-// Visibilidade por breakpoint
-@each $breakpoint in (xs, sm, md, lg, xl, xxl) {
-    .ls-hide-#{$breakpoint} {
-        @include respond-to($breakpoint) {
-            display: none !important;
-        }
-    }
-
-    .ls-show-#{$breakpoint} {
-        display: none !important;
-
-        @include respond-to($breakpoint) {
-            display: block !important;
-        }
-    }
-}
-
-// Visibilidade apenas em mobile/tablet/desktop
-.ls-hide-mobile {
-    @include respond-to(mobile) {
-        display: none !important;
-    }
-}
-
-.ls-show-mobile {
+// Visibilidade em mobile/tablet
+.livingstone-show-mobile {
     display: none !important;
+}
 
-    @include respond-to(mobile) {
+.livingstone-show-tablet {
+    display: none !important;
+}
+
+// Visibilidade por breakpoint - xs
+@media (min-width: $livingstone-breakpoint-xs) {
+    .livingstone-hide-xs-up {
+        display: none !important;
+    }
+}
+
+@media (max-width: ($livingstone-breakpoint-sm - 1)) {
+    .livingstone-hide-xs-down {
+        display: none !important;
+    }
+}
+
+// Visibilidade por breakpoint - sm
+@media (min-width: $livingstone-breakpoint-sm) {
+    .livingstone-hide-sm-up {
+        display: none !important;
+    }
+
+    .livingstone-text-sm-left {
+        text-align: left !important;
+    }
+    .livingstone-text-sm-center {
+        text-align: center !important;
+    }
+    .livingstone-text-sm-right {
+        text-align: right !important;
+    }
+}
+
+@media (max-width: ($livingstone-breakpoint-md - 1)) {
+    .livingstone-hide-sm-down {
+        display: none !important;
+    }
+
+    // Mobile classes
+    .livingstone-hide-mobile {
+        display: none !important;
+    }
+
+    .livingstone-show-mobile {
         display: block !important;
     }
 }
 
-.ls-hide-tablet {
-    @include respond-to(tablet) {
+// Visibilidade por breakpoint - md
+@media (min-width: $livingstone-breakpoint-md) {
+    .livingstone-hide-md-up {
         display: none !important;
+    }
+
+    .livingstone-text-md-left {
+        text-align: left !important;
+    }
+    .livingstone-text-md-center {
+        text-align: center !important;
+    }
+    .livingstone-text-md-right {
+        text-align: right !important;
     }
 }
 
-.ls-show-tablet {
-    display: none !important;
+@media (max-width: ($livingstone-breakpoint-lg - 1)) {
+    .livingstone-hide-md-down {
+        display: none !important;
+    }
 
-    @include respond-to(tablet) {
+    // Tablet classes
+    .livingstone-hide-tablet {
+        display: none !important;
+    }
+
+    .livingstone-show-tablet {
         display: block !important;
     }
 }
 
-.ls-hide-desktop {
-    @include respond-to(desktop) {
+// Visibilidade por breakpoint - lg
+@media (min-width: $livingstone-breakpoint-lg) {
+    .livingstone-hide-lg-up {
+        display: none !important;
+    }
+
+    .livingstone-text-lg-left {
+        text-align: left !important;
+    }
+    .livingstone-text-lg-center {
+        text-align: center !important;
+    }
+    .livingstone-text-lg-right {
+        text-align: right !important;
+    }
+}
+
+@media (max-width: ($livingstone-breakpoint-xl - 1)) {
+    .livingstone-hide-lg-down {
         display: none !important;
     }
 }
 
-.ls-show-desktop {
-    display: none !important;
+// Visibilidade por breakpoint - xl
+@media (min-width: $livingstone-breakpoint-xl) {
+    .livingstone-hide-xl-up {
+        display: none !important;
+    }
 
-    @include respond-to(desktop) {
-        display: block !important;
+    .livingstone-text-xl-left {
+        text-align: left !important;
+    }
+    .livingstone-text-xl-center {
+        text-align: center !important;
+    }
+    .livingstone-text-xl-right {
+        text-align: right !important;
     }
 }
 
-// Alinhamento de texto responsivo
-@each $breakpoint in (xs, sm, md, lg, xl, xxl) {
-    @include respond-to($breakpoint) {
-        .ls-text-#{$breakpoint}-left {
-            text-align: left !important;
-        }
-        .ls-text-#{$breakpoint}-center {
-            text-align: center !important;
-        }
-        .ls-text-#{$breakpoint}-right {
-            text-align: right !important;
-        }
+@media (max-width: ($livingstone-breakpoint-xxl - 1)) {
+    .livingstone-hide-xl-down {
+        display: none !important;
     }
 }
 
-// Ordem de elementos responsiva
-@each $breakpoint in (xs, sm, md, lg, xl, xxl) {
-    @include respond-to($breakpoint) {
-        @for $i from 0 through 5 {
-            .ls-order-#{$breakpoint}-#{$i} {
-                order: $i;
-            }
-        }
-        .ls-order-#{$breakpoint}-first {
-            order: -1;
-        }
-        .ls-order-#{$breakpoint}-last {
-            order: 6;
-        }
-    }
-}
-
-// Tamanhos de fonte responsivos
-@include respond-to(mobile) {
-    html {
-        font-size: 14px;
+// Visibilidade por breakpoint - xxl
+@media (min-width: $livingstone-breakpoint-xxl) {
+    .livingstone-hide-xxl-up {
+        display: none !important;
     }
 
-    h1 {
-        font-size: rem(28);
+    .livingstone-text-xxl-left {
+        text-align: left !important;
     }
-    h2 {
-        font-size: rem(24);
+    .livingstone-text-xxl-center {
+        text-align: center !important;
     }
-    h3 {
-        font-size: rem(20);
-    }
-    h4 {
-        font-size: rem(18);
-    }
-    h5 {
-        font-size: rem(16);
-    }
-    h6 {
-        font-size: rem(15);
-    }
-}
-
-// Ajustes para telas muito pequenas
-@include respond-to(xs) {
-    html {
-        font-size: 13px;
-    }
-
-    .container,
-    .container-fluid {
-        padding-left: spacing(2);
-        padding-right: spacing(2);
-    }
-
-    .ls-row {
-        margin-left: -0.5rem;
-        margin-right: -0.5rem;
-    }
-
-    [class*='ls-col-'] {
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
-    }
-}
-
-// Utilitários responsivos de flexbox
-@each $breakpoint in (xs, sm, md, lg, xl, xxl) {
-    @include respond-to($breakpoint) {
-        .ls-flex-#{$breakpoint}-row {
-            flex-direction: row !important;
-        }
-        .ls-flex-#{$breakpoint}-column {
-            flex-direction: column !important;
-        }
-        .ls-flex-#{$breakpoint}-wrap {
-            flex-wrap: wrap !important;
-        }
-        .ls-flex-#{$breakpoint}-nowrap {
-            flex-wrap: nowrap !important;
-        }
+    .livingstone-text-xxl-right {
+        text-align: right !important;
     }
 }
 
 // Preferências do usuário
 @media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
+    .livingstone-transition,
+    .livingstone-animated,
+    .livingstone-header,
+    .livingstone-navbar,
+    .livingstone-logo,
+    .livingstone-nav-link,
+    .livingstone-btn {
         transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
-        scroll-behavior: auto !important;
     }
 }
 
 // Impressão
 @media print {
-    .ls-no-print {
+    .livingstone-no-print {
         display: none !important;
     }
 
-    .ls-print-block {
+    .livingstone-print-block {
         display: block !important;
     }
 
-    .ls-print-inline {
-        display: inline !important;
-    }
-
-    .ls-print-inline-block {
-        display: inline-block !important;
+    .livingstone-header,
+    .livingstone-footer {
+        display: none !important;
     }
 
     body {
-        min-height: auto !important;
         padding-top: 0 !important;
+        margin: 0 !important;
     }
 
-    a[href]:after {
+    a::after {
         content: ' (' attr(href) ')';
         font-size: 0.8em;
         font-weight: normal;
+        color: #555;
     }
 
-    abbr[title]:after {
-        content: ' (' attr(title) ')';
-    }
-
-    // Evite quebras de página em elementos importantes
+    // Evitar quebras de página em elementos importantes
     h1,
     h2,
     h3,
@@ -223,5 +291,15 @@
 
     img {
         page-break-inside: avoid;
+        max-width: 100% !important;
+    }
+
+    table {
+        page-break-inside: avoid;
+    }
+
+    .livingstone-container {
+        max-width: 100% !important;
+        width: 100% !important;
     }
 }

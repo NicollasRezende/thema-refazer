@@ -1,0 +1,85 @@
+/* Reset - Estilos básicos que não interferem com o Liferay */
+@import '../abstracts/variables';
+@import '../abstracts/mixins';
+
+// Mantém resets mínimos para não conflitar com os do Liferay
+.livingstone-theme {
+    // Box-sizing para componentes do tema
+    .livingstone-component {
+        box-sizing: border-box;
+        * {
+            box-sizing: inherit;
+        }
+    }
+
+    // Melhora a suavidade de fontes nos componentes do tema
+    .livingstone-text {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+    }
+
+    // Reset de imagens nos componentes do tema
+    .livingstone-img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    // Melhorar acessibilidade
+    .livingstone-focusable:focus {
+        outline: thin dotted;
+        outline-offset: 2px;
+    }
+
+    // Aplicar transições suaves
+    .livingstone-animated {
+        @include livingstone-transition;
+    }
+
+    // Classes de utilidade básicas
+    .livingstone-sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+    }
+
+    .livingstone-hidden {
+        display: none !important;
+    }
+
+    // Container personalizado para o tema
+    .livingstone-container {
+        width: 100%;
+        padding-right: 1rem;
+        padding-left: 1rem;
+        margin-right: auto;
+        margin-left: auto;
+
+        @include livingstone-media(sm) {
+            max-width: 540px;
+        }
+
+        @include livingstone-media(md) {
+            max-width: 720px;
+        }
+
+        @include livingstone-media(lg) {
+            max-width: 960px;
+        }
+
+        @include livingstone-media(xl) {
+            max-width: 1140px;
+        }
+
+        @include livingstone-media(xxl) {
+            max-width: 1320px;
+        }
+    }
+}

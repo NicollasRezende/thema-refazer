@@ -1,337 +1,324 @@
 /* Footer - Estilos para o rodapé do site */
+@import '../abstracts/variables';
+@import '../abstracts/mixins';
+@import '../abstracts/functions';
 
 .livingstone-footer {
     position: relative;
-    background-color: $primary-color;
-    color: $text-light;
-    padding: spacing(7) 0 spacing(3);
-    margin-top: spacing(7);
-    overflow: hidden;
+    background-color: $livingstone-primary;
+    color: $livingstone-text-light;
+    padding: livingstone-spacing(6) 0 livingstone-spacing(2);
+    margin-top: livingstone-spacing(6);
 
-    // Efeito de borda superior
+    // Separador decorativo
     &::before {
         content: '';
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
-        height: 5px;
+        height: 4px;
         background: linear-gradient(
             to right,
-            $primary-dark,
-            $accent-color,
-            $primary-dark
+            $livingstone-dark,
+            $livingstone-gold,
+            $livingstone-dark
         );
     }
 
-    // Efeito de onda no fundo
-    &::after {
-        content: '';
+    // Decoração de fundo
+    .livingstone-footer-pattern {
         position: absolute;
-        bottom: 0;
+        top: 0;
         left: 0;
         width: 100%;
-        height: 60px;
-        background: url('../images/wave.svg') repeat-x;
-        background-size: 300px 60px;
-        opacity: 0.05;
-        pointer-events: none;
-    }
-
-    // Efeito decorativo
-    .footer-decoration {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        width: 300px;
-        height: 300px;
-        background: radial-gradient(
-            circle,
-            rgba($accent-color, 0.1) 0%,
-            rgba($accent-color, 0) 70%
+        height: 100%;
+        background-image: radial-gradient(
+            circle at 50% 50%,
+            rgba(255, 255, 255, 0.03) 0%,
+            rgba(255, 255, 255, 0) 60%
         );
-        border-radius: 50%;
+        opacity: 0.3;
         pointer-events: none;
-        z-index: 1;
     }
 
     // Container principal
-    .container {
+    .livingstone-footer-container {
         position: relative;
-        z-index: 2;
+        z-index: 1;
     }
 
-    // Grid de conteúdo
-    .row {
-        margin-bottom: spacing(5);
+    // Logo no footer
+    .livingstone-footer-logo {
+        margin-bottom: livingstone-spacing(3);
 
-        // Define margens entre colunas
-        > [class*='col-'] {
-            margin-bottom: spacing(5);
+        .livingstone-footer-logo-text {
+            font-family: $livingstone-font-heading;
+            font-size: livingstone-rem(24);
+            font-weight: $livingstone-font-weight-bold;
+            color: white;
 
-            @include respond-to(lg) {
-                margin-bottom: 0;
+            .livingstone-accent-text {
+                color: $livingstone-gold;
             }
         }
     }
 
-    // Seção da marca
-    .footer-brand {
-        h4 {
-            font-family: $font-heading;
-            font-size: rem(24);
-            color: $accent-color;
-            margin-bottom: spacing(3);
-            position: relative;
-            padding-bottom: spacing(3);
+    // Descrição do hotel
+    .livingstone-footer-description {
+        color: rgba($livingstone-text-light, 0.8);
+        margin-bottom: livingstone-spacing(4);
+        font-size: livingstone-rem(15);
+        max-width: 280px;
+    }
 
-            &::after {
-                content: '';
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                width: 50px;
-                height: 2px;
-                background-color: $accent-color;
-                transition: $transition-base;
+    // Ícones sociais
+    .livingstone-social-links {
+        @include livingstone-flex(
+            row,
+            flex-start,
+            center,
+            nowrap,
+            livingstone-spacing(2)
+        );
+        margin-bottom: livingstone-spacing(4);
+
+        .livingstone-social-link {
+            @include livingstone-flex(row, center, center);
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            @include livingstone-transition;
+
+            svg {
+                width: 18px;
+                height: 18px;
+                fill: currentColor;
             }
 
-            &:hover::after {
-                width: 70px;
+            &:hover {
+                background-color: $livingstone-gold;
+                color: $livingstone-dark;
+                transform: translateY(-3px);
             }
         }
+    }
 
-        p {
-            color: rgba($text-light, 0.8);
-            max-width: 300px;
-            margin-bottom: spacing(4);
+    // Títulos de seção
+    .livingstone-footer-title {
+        font-family: $livingstone-font-heading;
+        font-size: livingstone-rem(18);
+        color: white;
+        margin-bottom: livingstone-spacing(3);
+        position: relative;
+        padding-bottom: livingstone-spacing(2);
+        font-weight: $livingstone-font-weight-medium;
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: $livingstone-gold;
         }
+    }
 
-        // Ícones sociais
-        .social-icons {
-            @include flex(row, flex-start, center, nowrap, spacing(3));
+    // Links de navegação
+    .livingstone-footer-links {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 livingstone-spacing(4) 0;
+
+        li {
+            margin-bottom: livingstone-spacing(2);
 
             a {
-                @include flex(row, center, center);
-                width: 40px;
-                height: 40px;
-                background-color: rgba($text-light, 0.1);
-                border-radius: 50%;
-                transition: $transition-base;
+                color: rgba($livingstone-text-light, 0.8);
+                text-decoration: none;
+                font-size: livingstone-rem(15);
+                @include livingstone-transition;
+                display: inline-flex;
+                align-items: center;
 
-                .lexicon-icon {
-                    width: 20px;
-                    height: 20px;
-                    color: $text-light;
-                    transition: $transition-base;
+                &::before {
+                    content: '';
+                    display: inline-block;
+                    width: 5px;
+                    height: 5px;
+                    border-radius: 50%;
+                    background-color: $livingstone-gold;
+                    margin-right: livingstone-spacing(1);
+                    @include livingstone-transition;
                 }
 
                 &:hover {
-                    background-color: $accent-color;
-                    transform: translateY(-5px);
+                    color: white;
+                    transform: translateX(5px);
 
-                    .lexicon-icon {
-                        color: $primary-color;
+                    &::before {
+                        background-color: white;
                     }
                 }
             }
         }
     }
 
-    // Seção de navegação
-    .footer-nav {
-        h4 {
-            font-family: $font-heading;
-            font-size: rem(20);
-            color: $accent-color;
-            margin-bottom: spacing(4);
-            position: relative;
-            padding-bottom: spacing(3);
+    // Informações de contato
+    .livingstone-contact-info {
+        margin-bottom: livingstone-spacing(4);
 
-            &::after {
-                content: '';
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                width: 40px;
-                height: 2px;
-                background-color: $accent-color;
-            }
-        }
-    }
+        .livingstone-contact-item {
+            @include livingstone-flex(
+                row,
+                flex-start,
+                center,
+                nowrap,
+                livingstone-spacing(2)
+            );
+            margin-bottom: livingstone-spacing(2);
+            color: rgba($livingstone-text-light, 0.8);
+            font-size: livingstone-rem(15);
 
-    // Seção de contato
-    .footer-contact {
-        h4 {
-            font-family: $font-heading;
-            font-size: rem(20);
-            color: $accent-color;
-            margin-bottom: spacing(4);
-            position: relative;
-            padding-bottom: spacing(3);
-
-            &::after {
-                content: '';
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                width: 40px;
-                height: 2px;
-                background-color: $accent-color;
-            }
-        }
-
-        p {
-            @include flex(row, flex-start, center, nowrap, spacing(3));
-            margin-bottom: spacing(3);
-
-            .lexicon-icon {
+            .livingstone-icon {
+                color: $livingstone-gold;
+                flex-shrink: 0;
                 width: 18px;
                 height: 18px;
-                color: $accent-color;
-                flex-shrink: 0;
-            }
 
-            span {
-                color: rgba($text-light, 0.9);
-            }
-        }
-    }
-
-    // Seção de newsletter (opcional)
-    .footer-newsletter {
-        h4 {
-            font-family: $font-heading;
-            font-size: rem(20);
-            color: $accent-color;
-            margin-bottom: spacing(3);
-            position: relative;
-            padding-bottom: spacing(3);
-
-            &::after {
-                content: '';
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                width: 40px;
-                height: 2px;
-                background-color: $accent-color;
-            }
-        }
-
-        p {
-            color: rgba($text-light, 0.8);
-            margin-bottom: spacing(3);
-        }
-
-        .newsletter-form {
-            @include flex(row, center, stretch, nowrap, spacing(2));
-
-            input {
-                flex: 1;
-                height: 44px;
-                padding: 0 spacing(3);
-                background-color: rgba($text-light, 0.1);
-                border: 1px solid rgba($text-light, 0.2);
-                border-radius: $border-radius-sm;
-                color: $text-light;
-
-                &::placeholder {
-                    color: rgba($text-light, 0.5);
-                }
-
-                &:focus {
-                    outline: none;
-                    border-color: $accent-color;
-                    background-color: rgba($text-light, 0.15);
-                }
-            }
-
-            button {
-                height: 44px;
-                padding: 0 spacing(4);
-                background-color: $accent-color;
-                color: $primary-color;
-                font-weight: $font-weight-semibold;
-                border: none;
-                border-radius: $border-radius-sm;
-                transition: $transition-base;
-
-                &:hover {
-                    background-color: darken($accent-color, 10%);
-                    transform: translateY(-2px);
-                }
-            }
-
-            @include respond-to(mobile) {
-                flex-direction: column;
-
-                input,
-                button {
+                svg {
                     width: 100%;
-                    margin-bottom: spacing(2);
+                    height: 100%;
+                    fill: currentColor;
                 }
             }
         }
     }
 
-    // Parte inferior com copyright
-    .footer-bottom {
-        text-align: center;
-        padding-top: spacing(4);
-        border-top: 1px solid rgba($text-light, 0.1);
+    // Formulário de newsletter
+    .livingstone-newsletter-form {
+        @include livingstone-flex(row, flex-start, stretch, nowrap);
+        margin-bottom: livingstone-spacing(4);
 
-        p {
-            @include flex(row, center, center, wrap, spacing(2));
-            color: rgba($text-light, 0.6);
-            font-size: rem(14);
+        .livingstone-newsletter-input {
+            flex: 1;
+            padding: livingstone-spacing(1) livingstone-spacing(2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-top-left-radius: $livingstone-border-radius;
+            border-bottom-left-radius: $livingstone-border-radius;
+            font-size: livingstone-rem(14);
+            min-height: 38px;
+
+            &::placeholder {
+                color: rgba(255, 255, 255, 0.5);
+            }
+
+            &:focus {
+                outline: none;
+                background-color: rgba(255, 255, 255, 0.15);
+                border-color: $livingstone-gold;
+            }
+        }
+
+        .livingstone-newsletter-btn {
+            @include livingstone-button-reset;
+            background-color: $livingstone-gold;
+            color: $livingstone-dark;
+            padding: 0 livingstone-spacing(2);
+            border-top-right-radius: $livingstone-border-radius;
+            border-bottom-right-radius: $livingstone-border-radius;
+            font-weight: $livingstone-font-weight-bold;
+            @include livingstone-transition;
+            min-height: 38px;
+
+            &:hover {
+                background-color: lighten($livingstone-gold, 10%);
+            }
+
+            svg {
+                width: 16px;
+                height: 16px;
+                fill: currentColor;
+            }
+        }
+
+        @include livingstone-media(mobile-only) {
+            flex-direction: column;
+
+            .livingstone-newsletter-input {
+                border-radius: $livingstone-border-radius;
+                margin-bottom: livingstone-spacing(2);
+            }
+
+            .livingstone-newsletter-btn {
+                width: 100%;
+                border-radius: $livingstone-border-radius;
+                padding: livingstone-spacing(1) 0;
+            }
+        }
+    }
+
+    // Copyright
+    .livingstone-footer-bottom {
+        text-align: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: livingstone-spacing(3);
+        margin-top: livingstone-spacing(3);
+
+        .livingstone-copyright {
+            color: rgba($livingstone-text-light, 0.6);
+            font-size: livingstone-rem(14);
 
             a {
-                color: rgba($text-light, 0.8);
-                transition: $transition-base;
+                color: rgba($livingstone-text-light, 0.8);
+                text-decoration: none;
+                @include livingstone-transition;
 
                 &:hover {
-                    color: $accent-color;
-                    text-decoration: none;
+                    color: $livingstone-gold;
                 }
             }
         }
     }
 
     // Responsividade
-    @include respond-to(tablet) {
-        padding: spacing(6) 0 spacing(3);
-
-        .footer-decoration {
-            display: none;
-        }
-    }
-
-    @include respond-to(mobile) {
-        .footer-brand,
-        .footer-nav,
-        .footer-contact,
-        .footer-newsletter {
+    @include livingstone-media(mobile-only) {
+        .livingstone-footer-section {
+            margin-bottom: livingstone-spacing(4);
             text-align: center;
 
-            h4 {
+            .livingstone-footer-title {
                 &::after {
                     left: 50%;
                     transform: translateX(-50%);
                 }
             }
 
-            p {
+            .livingstone-footer-description {
                 margin-left: auto;
                 margin-right: auto;
             }
 
-            .social-icons {
+            .livingstone-social-links {
                 justify-content: center;
             }
 
-            .footer-contact p {
-                justify-content: center;
+            .livingstone-footer-links {
+                li a {
+                    justify-content: center;
+                }
+            }
+
+            .livingstone-contact-info {
+                .livingstone-contact-item {
+                    justify-content: center;
+                }
             }
         }
     }

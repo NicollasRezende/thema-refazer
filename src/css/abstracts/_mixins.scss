@@ -1,52 +1,49 @@
 // Importar variáveis
 @import 'variables';
+
 /* Mixins - Funções reutilizáveis para SCSS */
 
 // Mixin para media queries
-@mixin respond-to($breakpoint) {
+@mixin livingstone-media($breakpoint) {
     @if $breakpoint == xs {
-        @media (max-width: #{$breakpoint-sm - 1}) {
+        @media (max-width: #{$livingstone-breakpoint-sm - 1}) {
             @content;
         }
     } @else if $breakpoint == sm {
-        @media (min-width: #{$breakpoint-sm}) and (max-width: #{$breakpoint-md - 1}) {
+        @media (min-width: #{$livingstone-breakpoint-sm}) {
             @content;
         }
     } @else if $breakpoint == md {
-        @media (min-width: #{$breakpoint-md}) and (max-width: #{$breakpoint-lg - 1}) {
+        @media (min-width: #{$livingstone-breakpoint-md}) {
             @content;
         }
     } @else if $breakpoint == lg {
-        @media (min-width: #{$breakpoint-lg}) and (max-width: #{$breakpoint-xl - 1}) {
+        @media (min-width: #{$livingstone-breakpoint-lg}) {
             @content;
         }
     } @else if $breakpoint == xl {
-        @media (min-width: #{$breakpoint-xl}) and (max-width: #{$breakpoint-xxl - 1}) {
+        @media (min-width: #{$livingstone-breakpoint-xl}) {
             @content;
         }
     } @else if $breakpoint == xxl {
-        @media (min-width: #{$breakpoint-xxl}) {
+        @media (min-width: #{$livingstone-breakpoint-xxl}) {
             @content;
         }
-    } @else if $breakpoint == mobile {
-        @media (max-width: #{$breakpoint-md - 1}) {
+    } @else if $breakpoint == mobile-only {
+        @media (max-width: #{$livingstone-breakpoint-md - 1}) {
             @content;
         }
-    } @else if $breakpoint == tablet {
-        @media (max-width: #{$breakpoint-lg - 1}) {
-            @content;
-        }
-    } @else if $breakpoint == desktop {
-        @media (min-width: #{$breakpoint-lg}) {
+    } @else if $breakpoint == tablet-down {
+        @media (max-width: #{$livingstone-breakpoint-lg - 1}) {
             @content;
         }
     } @else {
-        @error "O breakpoint '#{$breakpoint}' não é válido. Use xs, sm, md, lg, xl, xxl, mobile, tablet ou desktop.";
+        @error "O breakpoint '#{$breakpoint}' não é válido.";
     }
 }
 
 // Mixin para flexbox
-@mixin flex(
+@mixin livingstone-flex(
     $direction: row,
     $justify: flex-start,
     $align: center,
@@ -64,7 +61,12 @@
 }
 
 // Mixin para posicionamento absoluto
-@mixin absolute($top: auto, $right: auto, $bottom: auto, $left: auto) {
+@mixin livingstone-position-absolute(
+    $top: auto,
+    $right: auto,
+    $bottom: auto,
+    $left: auto
+) {
     position: absolute;
     top: $top;
     right: $right;
@@ -72,25 +74,26 @@
     left: $left;
 }
 
-// Mixin para posicionamento fixo
-@mixin fixed($top: auto, $right: auto, $bottom: auto, $left: auto) {
-    position: fixed;
-    top: $top;
-    right: $right;
-    bottom: $bottom;
-    left: $left;
+// Mixin para transições
+@mixin livingstone-transition($property: all, $duration: 0.3s, $timing: ease) {
+    transition: $property $duration $timing;
 }
 
-// Mixin para grid
-@mixin grid($columns: 1, $rows: auto, $gap: 0) {
-    display: grid;
-    grid-template-columns: repeat($columns, 1fr);
-    grid-template-rows: $rows;
-    gap: $gap;
+// Mixin para sombras
+@mixin livingstone-shadow($level: 'base') {
+    @if $level == 'sm' {
+        box-shadow: $livingstone-box-shadow-sm;
+    } @else if $level == 'base' {
+        box-shadow: $livingstone-box-shadow;
+    } @else if $level == 'lg' {
+        box-shadow: $livingstone-box-shadow-lg;
+    } @else {
+        @error "Nível de sombra '#{$level}' não válido. Use 'sm', 'base' ou 'lg'.";
+    }
 }
 
-// Mixin para truncar texto
-@mixin text-truncate($lines: 1) {
+// Mixin para texto truncado
+@mixin livingstone-truncate($lines: 1) {
     @if $lines == 1 {
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -104,7 +107,7 @@
 }
 
 // Mixin para reset de botão
-@mixin button-reset {
+@mixin livingstone-button-reset {
     background: none;
     border: none;
     padding: 0;
@@ -115,40 +118,20 @@
     outline: none;
 }
 
-// Mixin para transições
-@mixin transition($property: all, $duration: 0.3s, $timing: ease) {
-    transition: $property $duration $timing;
-}
-
 // Mixin para glassmorphism
-@mixin glass($opacity: 0.2, $blur: 10px) {
+@mixin livingstone-glass($opacity: 0.2, $blur: 10px) {
     background-color: rgba(255, 255, 255, $opacity);
     backdrop-filter: blur($blur);
     -webkit-backdrop-filter: blur($blur);
 }
 
-// Mixin para texto com sombra
-@mixin text-shadow($size: 2px) {
-    text-shadow: 0 $size 4px rgba(0, 0, 0, 0.3);
-}
-
-// Mixin para box-shadow
-@mixin box-shadow($shadow: $box-shadow) {
-    box-shadow: $shadow;
-}
-
 // Mixin para animação de hover
-@mixin hover-lift($y: -3px, $shadow: $box-shadow-lg) {
-    @include transition;
+@mixin livingstone-hover-effect($y: -3px, $shadow: $livingstone-box-shadow) {
+    @include livingstone-transition;
 
     &:hover,
     &:focus {
         transform: translateY($y);
-        @include box-shadow($shadow);
+        box-shadow: $shadow;
     }
-}
-
-// Mixin para gradientes
-@mixin gradient($direction, $start-color, $end-color) {
-    background: linear-gradient($direction, $start-color, $end-color);
 }

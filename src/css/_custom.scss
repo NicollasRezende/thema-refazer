@@ -1,27 +1,80 @@
-/* _custom.scss - Arquivo principal que importa todos os outros componentes SCSS */
+/* _custom.scss - Arquivo principal que importa todos os outros */
 
-/* Abstracts - base para todo o tema */
+// Abstracts - base para todo o tema
 @import 'abstracts/variables';
 @import 'abstracts/mixins';
 @import 'abstracts/functions';
 
-/* Base - estilos básicos */
-@import 'base/resets';
+// Base - estilos básicos
+@import 'base/reset';
 @import 'base/typography';
 
-/* Layout - componentes principais do layout */
+// Layout - componentes principais do layout
 @import 'layout/header';
 @import 'layout/footer';
-@import 'layout/grid';
 @import 'layout/responsive';
 
-/* Components - elementos reutilizáveis */
-@import 'components/buttons';
-@import 'components/forms';
-@import 'components/navigation';
-@import 'components/portlets';
-@import 'components/icons';
+// Components - se necessário adicionar mais componentes
+// @import 'components/buttons';
+// @import 'components/navigation';
 
-/* Pages - estilos específicos para páginas especiais */
-@import 'pages/login';
-@import 'pages/home';
+// Correções específicas para elementos do Liferay que podem estar com problemas
+// Adicionadas diretamente aqui para sobrescrever outros estilos
+
+// Garantir que o navbar do Liferay tenha a largura correta
+.control-menu,
+.control-menu-container,
+.control-menu-level-1 {
+    width: 100% !important;
+}
+
+// Corrigir a exibição dos ícones no control menu
+.control-menu .lexicon-icon,
+.control-menu .lfr-icon,
+.control-menu [class*='icon-'],
+.control-menu svg {
+    display: inline-block !important;
+    margin: auto !important;
+}
+
+// Corrigir alinhamento dos itens no control menu
+.control-menu .control-menu-nav > li {
+    display: inline-flex !important;
+    align-items: center !important;
+    vertical-align: middle !important;
+}
+
+// Preservar botões no control menu
+.control-menu button,
+.control-menu .btn,
+.control-menu .btn-secondary,
+.control-menu .btn-primary {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+// Corrigir posição de dropdowns no control menu
+.control-menu .dropdown-menu {
+    position: absolute !important;
+    display: block !important;
+    visibility: visible !important;
+    transform: none !important;
+}
+
+// Assegurar que grupos de botões e ferramentas sejam exibidos corretamente
+.control-menu .toolbar-group-content,
+.control-menu .toolbar-group-field {
+    display: inline-flex !important;
+}
+
+// Corrigir o comportamento quando o admin sidebar está aberto
+body.open-admin-panel,
+body.sidenav-toggler-open,
+body.lfr-has-sidebar {
+    #wrapper,
+    #content,
+    .livingstone-header {
+        transition: margin-left 0.3s ease, left 0.3s ease, width 0.3s ease;
+    }
+}

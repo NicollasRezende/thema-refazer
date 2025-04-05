@@ -1,202 +1,157 @@
-/* Typography - Estilos para tipografia do tema */
+/* Typography - Estilos de tipografia para o tema */
+@import '../abstracts/variables';
+@import '../abstracts/mixins';
+@import '../abstracts/functions';
 
-// Configurações de fonte base
-body {
-    font-family: $font-body;
-    font-size: 16px;
-    line-height: 1.6;
-    color: $text-dark;
-}
+// Aplicamos os estilos apenas aos componentes do nosso tema
+// para não afetar o estilo global do Liferay
 
-// Título principal e subtítulos
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-family: $font-heading;
-    margin-top: 0;
-    margin-bottom: spacing(3);
-    line-height: 1.3;
-    color: $primary-color;
-}
-
-h1 {
-    font-size: rem(36);
-    font-weight: $font-weight-bold;
-    @include text-shadow;
-
-    @include respond-to(mobile) {
-        font-size: rem(28);
+.livingstone-theme {
+    // Títulos dentro dos componentes do tema
+    .livingstone-heading {
+        font-family: $livingstone-font-heading;
+        margin-top: 0;
+        margin-bottom: livingstone-spacing(3);
+        line-height: 1.3;
+        color: $livingstone-primary;
+        font-weight: $livingstone-font-weight-bold;
     }
-}
 
-h2 {
-    font-size: rem(30);
-    font-weight: $font-weight-bold;
+    .livingstone-h1 {
+        font-size: livingstone-rem(36);
 
-    @include respond-to(mobile) {
-        font-size: rem(24);
+        @include livingstone-media(mobile-only) {
+            font-size: livingstone-rem(28);
+        }
     }
-}
 
-h3 {
-    font-size: rem(24);
-    font-weight: $font-weight-semibold;
+    .livingstone-h2 {
+        font-size: livingstone-rem(30);
 
-    @include respond-to(mobile) {
-        font-size: rem(20);
+        @include livingstone-media(mobile-only) {
+            font-size: livingstone-rem(24);
+        }
     }
-}
 
-h4 {
-    font-size: rem(20);
-    font-weight: $font-weight-semibold;
+    .livingstone-h3 {
+        font-size: livingstone-rem(24);
 
-    @include respond-to(mobile) {
-        font-size: rem(18);
+        @include livingstone-media(mobile-only) {
+            font-size: livingstone-rem(20);
+        }
     }
-}
 
-h5 {
-    font-size: rem(18);
-    font-weight: $font-weight-semibold;
+    .livingstone-h4 {
+        font-size: livingstone-rem(20);
 
-    @include respond-to(mobile) {
-        font-size: rem(16);
+        @include livingstone-media(mobile-only) {
+            font-size: livingstone-rem(18);
+        }
     }
-}
 
-h6 {
-    font-size: rem(16);
-    font-weight: $font-weight-semibold;
-}
+    .livingstone-h5 {
+        font-size: livingstone-rem(18);
 
-// Parágrafos
-p {
-    margin-top: 0;
-    margin-bottom: spacing(3);
-
-    &:last-child {
-        margin-bottom: 0;
+        @include livingstone-media(mobile-only) {
+            font-size: livingstone-rem(16);
+        }
     }
-}
 
-// Links
-a {
-    color: $accent-color;
-    text-decoration: none;
-    font-weight: $font-weight-medium;
-
-    &:hover,
-    &:focus {
-        color: $accent-dark;
-        text-decoration: underline;
+    .livingstone-h6 {
+        font-size: livingstone-rem(16);
+        font-weight: $livingstone-font-weight-medium;
     }
-}
 
-// Listas
-ul,
-ol {
-    margin-top: 0;
-    margin-bottom: spacing(3);
-    padding-left: spacing(4);
-
-    li {
-        margin-bottom: spacing(2);
+    // Texto padrão
+    .livingstone-text {
+        font-family: $livingstone-font-body;
+        font-size: livingstone-rem(16);
+        line-height: 1.6;
+        color: $livingstone-text-dark;
+        margin-top: 0;
+        margin-bottom: livingstone-spacing(3);
 
         &:last-child {
             margin-bottom: 0;
         }
     }
-}
 
-// Elementos de texto especiais
-small,
-.small {
-    font-size: 85%;
-}
+    // Links
+    .livingstone-link {
+        color: $livingstone-secondary;
+        text-decoration: none;
+        font-weight: $livingstone-font-weight-medium;
+        @include livingstone-transition;
 
-strong,
-.strong,
-b {
-    font-weight: $font-weight-bold;
-}
-
-em,
-.em,
-i {
-    font-style: italic;
-}
-
-// Classes de tipografia utilitárias
-.text-primary {
-    color: $primary-color !important;
-}
-
-.text-accent {
-    color: $accent-color !important;
-}
-
-.text-light {
-    color: $text-light !important;
-}
-
-.text-dark {
-    color: $text-dark !important;
-}
-
-.text-center {
-    text-align: center !important;
-}
-
-.text-left {
-    text-align: left !important;
-}
-
-.text-right {
-    text-align: right !important;
-}
-
-.text-justify {
-    text-align: justify !important;
-}
-
-.text-uppercase {
-    text-transform: uppercase !important;
-}
-
-.text-capitalize {
-    text-transform: capitalize !important;
-}
-
-.text-lowercase {
-    text-transform: lowercase !important;
-}
-
-// Estilo para título decorado (com linha abaixo)
-.title-decorated {
-    position: relative;
-    padding-bottom: spacing(3);
-
-    &::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 60px;
-        height: 3px;
-        background-color: $accent-color;
-        transition: $transition-base;
+        &:hover,
+        &:focus {
+            color: darken($livingstone-secondary, 15%);
+            text-decoration: underline;
+        }
     }
 
-    &:hover::after {
-        width: 80px;
+    // Texto pequeno
+    .livingstone-text-small {
+        font-size: livingstone-rem(14);
     }
 
-    &.text-center::after {
-        left: 50%;
-        transform: translateX(-50%);
+    // Texto grande
+    .livingstone-text-large {
+        font-size: livingstone-rem(18);
+    }
+
+    // Variações de texto
+    .livingstone-text-primary {
+        color: $livingstone-primary !important;
+    }
+
+    .livingstone-text-secondary {
+        color: $livingstone-secondary !important;
+    }
+
+    .livingstone-text-gold {
+        color: $livingstone-gold !important;
+    }
+
+    .livingstone-text-light {
+        color: $livingstone-text-light !important;
+    }
+
+    .livingstone-text-center {
+        text-align: center !important;
+    }
+
+    .livingstone-text-left {
+        text-align: left !important;
+    }
+
+    .livingstone-text-right {
+        text-align: right !important;
+    }
+
+    // Títulos decorados
+    .livingstone-title-decorated {
+        position: relative;
+        padding-bottom: livingstone-spacing(3);
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background-color: $livingstone-gold;
+            @include livingstone-transition;
+        }
+
+        &:hover::after {
+            width: 80px;
+        }
+
+        &.livingstone-text-center::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
     }
 }
